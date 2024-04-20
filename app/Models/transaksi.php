@@ -10,7 +10,7 @@ class transaksi extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'transaksi';
-    protected $primaryKey = 'id_transaksi';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'jumlah_transaksi_produk',
         'jumlah_poin_transaksi',

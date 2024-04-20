@@ -10,7 +10,7 @@ class withdraw extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'withdraw';
-    protected $primaryKey = 'id_withdraw';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'tanggal_withdraw',
         'jumlah_withdraw',

@@ -10,7 +10,7 @@ class kategori_produk extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'kategori_produk';
-    protected $primaryKey = 'id_kategori';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'nama_kategori_produk',
     ];

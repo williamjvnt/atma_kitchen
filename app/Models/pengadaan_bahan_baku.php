@@ -10,7 +10,7 @@ class pengadaan_bahan_baku extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'pengadaan_bahan_baku';
-    protected $primaryKey = 'id_pengadaan';
+    protected $primaryKey = 'id';
     protected $fillable =[
         'tanggal_pengadaan',
         'harga_bahan_baku',
