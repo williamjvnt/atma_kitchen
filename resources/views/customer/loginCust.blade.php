@@ -1,4 +1,4 @@
-@extends ('/customer/navbarDashboard')
+@extends ('/navbarDashboard')
 @section('content')
 
 
@@ -35,8 +35,8 @@
         </div>
         <div class="w-75 rounded form-control-sm">
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                <label for="floatingInput">Email address</label>
+                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">Username</label>
             </div>
             <div class="form-floating mb-3">
                 <input type="password" class="form-control" id="floatingPassword" placeholder="Password">

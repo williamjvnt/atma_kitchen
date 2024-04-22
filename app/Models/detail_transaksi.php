@@ -9,7 +9,7 @@ class detail_transaksi extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'detail_transaksi';
+    protected $table = 'detail_transaksis';
     protected $fillable =[
         'jumlah_produk',
         'total_transaksi_produk',

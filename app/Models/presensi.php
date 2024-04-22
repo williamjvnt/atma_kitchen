@@ -9,7 +9,7 @@ class presensi extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'presensi';
+    protected $table = 'presensis';
     protected $primaryKey = 'id';
     protected $fillable = [
         'jumlah_absen',

@@ -9,7 +9,7 @@ class detail_resep extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'detail_resep';
+    protected $table = 'detail_reseps';
     protected $fillable = [
         'jumlah_bahan',
         'id_bahan_baku',

@@ -9,7 +9,7 @@ class alamat_customer extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'alamat_customer';
+    protected $table = 'alamat_customers';
     protected $primaryKey = 'id';
     protected $fillable = [
 

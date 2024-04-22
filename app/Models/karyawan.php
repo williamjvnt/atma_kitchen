@@ -10,7 +10,7 @@ class karyawan extends Model
     use HasFactory;
     public $timestamps = false;
     protected $primaryKey = 'id';
-    protected $table = 'karyawan';
+    protected $table = 'karyawans';
     protected $fillable = [
         'nama_karyawan',
         'alamat_karyawan',
@@ -21,6 +21,10 @@ class karyawan extends Model
         'total_gaji',
         'id_role',
         'id_presensi',
+    ];
 
+    protected $hidden = [
+        'password',
+        'remember token',
     ];
 }

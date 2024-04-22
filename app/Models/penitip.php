@@ -9,7 +9,7 @@ class penitip extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'penitip';
+    protected $table = 'penitips';
     protected $primaryKey = 'id';
 
     protected $fillable = [

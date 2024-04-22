@@ -9,7 +9,7 @@ class resep_produk extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'resep_produk';
+    protected $table = 'resep_produks';
     protected $primaryKey = 'id';
     protected $fillable = [
         'nama_resep',

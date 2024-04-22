@@ -9,7 +9,7 @@ class transaksi extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'transaksi';
+    protected $table = 'transaksis';
     protected $primaryKey = 'id';
     protected $fillable = [
         'jumlah_transaksi_produk',

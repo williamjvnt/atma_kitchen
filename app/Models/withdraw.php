@@ -9,7 +9,7 @@ class withdraw extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'withdraw';
+    protected $table = 'withdraws';
     protected $primaryKey = 'id';
     protected $fillable = [
         'tanggal_withdraw',

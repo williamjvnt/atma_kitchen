@@ -84,17 +84,16 @@
                 </div>
             </div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-brands fa-product-hunt"></i>
-                    <span style="margin-left: 10px">Manage Data Produk</span></a>
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-solid fa-file-invoice fa-lg"></i></fa-solid>
-                    <span style="margin-left: 10px">Manage Resep</span></a>
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-solid fa-bars-progress"></i>
-                    <span style="margin-left: 9px">Manage Bahan Baku</span></a>
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-solid fa-bars-progress"></i>
-                    <span style="margin-left: 9px">Manage Hampers</span></a>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
+                    <span style="margin-left: 9px">Manager Karyawan</span></a>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
+                    <span style="margin-left: 9px">Manager Penitip</span></a>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
+                    <span style="margin-left: 9px">Manager Pembelian Bahan Baku</span></a>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
+                    <span style="margin-left: 9px">Manager Pengeluaran Lain</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Logout</span></a>
-
             </div>
 
         </div>
@@ -105,7 +104,7 @@
                     <button class="btn" id="sidebarToggle" style="color: #ffffff; background-color: #4B270F"><i class="fas fa-bars"></i></button>
                     <div>
                         <div class="d-flex align-items-center ms-auto mt-2 mt-lg-0 gap-3">
-                            <p class="brand-nav">Atma Bakery</p>
+                            <p class="brand-nav">Semesta Internasional High School</p>
                             <!-- <img class="logo" src="{{ asset('img/logosekolah.png') }}" alt="logo_sekolah"> -->
                         </div>
                     </div>

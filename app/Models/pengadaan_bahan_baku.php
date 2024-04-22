@@ -9,7 +9,7 @@ class pengadaan_bahan_baku extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'pengadaan_bahan_baku';
+    protected $table = 'pengadaan_bahan_bakus';
     protected $primaryKey = 'id';
     protected $fillable =[
         'tanggal_pengadaan',
