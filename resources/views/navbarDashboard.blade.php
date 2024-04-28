@@ -27,7 +27,8 @@
         }
 
         footer {
-            padding-top: 2rem;
+
+            padding: 3rem;
             position: auto;
             bottom: 0;
             width: 100%;

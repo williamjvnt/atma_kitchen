@@ -19,15 +19,22 @@ class KaryawanController extends Controller
 
     public function actionLoginEmployee(Request $request)
     {
-        $data = [
-            'username' => $request->input('username'),
-            'password' => $request->input('password'),
-
-        ];
         $user = karyawan::where('username', $request->username)->first();
 
         if ($user && $user->password === $request->password) {
-            return redirect()->route('dashboardAdmin');
+            if ($user->id === 1 || $user->id === 2) {
+                Session::put('active_karyawan_id', $user->nama_karyawan);
+                if ($user->id === 1) {
+                    return redirect()->route('dashboardMO');
+                } else {
+
+                    return redirect()->route('dashboardAdmin');
+                }
+            } else {
+
+                Session::flash('error', 'Anda bukan Admin atau MO!');
+                return redirect('loginEmployee');
+            }
         } else {
 
             Session::flash('error', 'Username atau Password salah!');
@@ -38,5 +45,7 @@ class KaryawanController extends Controller
 
     public function actionLogout(Request $request)
     {
+
+        return redirect('loginEmployee');
     }
 }

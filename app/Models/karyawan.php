@@ -22,9 +22,4 @@ class karyawan extends Model
         'id_role',
         'id_presensi',
     ];
-
-    protected $hidden = [
-        'password',
-        'remember token',
-    ];
 }
