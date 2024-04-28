@@ -12,7 +12,7 @@ class customer extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
     public $timestamps = false;
-    protected $table = 'customers';
+    protected $table = 'users';
     protected $primaryKey = 'id';
     protected $fillable = [
         'nama_customer',
@@ -20,6 +20,7 @@ class customer extends Authenticatable
         'username',
         'password',
         'email_customer',
+        'email_verified_at',
         'poin_customer',
         'tanggal_lahir_customer',
         'jumlah_saldo',

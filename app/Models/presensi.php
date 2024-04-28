@@ -12,8 +12,8 @@ class presensi extends Model
     protected $table = 'presensis';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'jumlah_absen',
-        'tanggal_absen',
-        'bonus_gaji',  
+        'jumlah_presensi',
+        'tanggal_presensi',
+        'bonus_gaji',
     ];
 }

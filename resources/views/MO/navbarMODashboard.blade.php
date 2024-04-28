@@ -79,8 +79,8 @@
             <div class="d-flex sidebar-heading border-bottom gap-3 p-4" style="background-color: #4B270F;">
                 <img src="{{ asset('images/bgLogin.jpg') }}" alt="logo" class="img-fluid rounded-4" style="width: 4rem">
                 <div class="text-white fw-bold d-flex flex-column justify-content-center align-items-start">
-                    <p class="mb-0" style="font-size: 16px">Admin</p>
-                    <p class="mb-0" style="font-size: 12px">911</p>
+                    <p class="mb-0" style="font-size: 16px">MO</p>
+                    <p class="mb-0" style="font-size: 12px">{{ session('active_karyawan_id') }}</p>
                 </div>
             </div>
             <div class="list-group list-group-flush">
@@ -92,7 +92,7 @@
                     <span style="margin-left: 9px">Manager Pembelian Bahan Baku</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Manager Pengeluaran Lain</span></a>
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{url('loginEmployee')}}"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Logout</span></a>
             </div>
 
@@ -104,7 +104,7 @@
                     <button class="btn" id="sidebarToggle" style="color: #ffffff; background-color: #4B270F"><i class="fas fa-bars"></i></button>
                     <div>
                         <div class="d-flex align-items-center ms-auto mt-2 mt-lg-0 gap-3">
-                            <p class="brand-nav">Semesta Internasional High School</p>
+                            <p class="brand-nav">Atma Kitchen</p>
                             <!-- <img class="logo" src="{{ asset('img/logosekolah.png') }}" alt="logo_sekolah"> -->
                         </div>
                     </div>

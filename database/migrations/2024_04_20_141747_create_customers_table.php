@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('poin_customer');
             $table->time('tanggal_lahir_customer');
             $table->float('jumlah_saldo');
+            $table->string('remember_token');
             $table->timestamps();
         });
     }

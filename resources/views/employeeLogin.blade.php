@@ -40,7 +40,7 @@
             </div>
 
             @endif
-            <form class="form" method="post" action="{{route ('actionLoginEmployee')}}">
+            <form class="form" method="post" action="{{route ('dashboardEmployee')}}">
                 @csrf
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="floatingInput" name="username" placeholder="employee id">

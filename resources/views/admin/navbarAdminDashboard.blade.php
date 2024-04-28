@@ -12,7 +12,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
-        html,
         body {
             min-height: min-content;
             height: 100%;
@@ -57,6 +56,10 @@
             width: 4rem;
         }
 
+        .container-fluid {
+            font-family: 'Poppins', sans-serif;
+        }
+
         /* Responsive */
         @media screen and (max-width: 412px) {
             .brand-nav {
@@ -80,11 +83,11 @@
                 <img src="{{ asset('images/bgLogin.jpg') }}" alt="logo" class="img-fluid rounded-4" style="width: 4rem">
                 <div class="text-white fw-bold d-flex flex-column justify-content-center align-items-start">
                     <p class="mb-0" style="font-size: 16px">Admin</p>
-                    <p class="mb-0" style="font-size: 12px">911</p>
+                    <p class="mb-0" style="font-size: 12px">{{ session('active_karyawan_id') }}</p>
                 </div>
             </div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-brands fa-product-hunt"></i>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('manageProduk')}}"><i class="fa-brands fa-product-hunt"></i>
                     <span style="margin-left: 10px">Manage Data Produk</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-solid fa-file-invoice fa-lg"></i></fa-solid>
                     <span style="margin-left: 10px">Manage Resep</span></a>
@@ -92,7 +95,7 @@
                     <span style="margin-left: 9px">Manage Bahan Baku</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-solid fa-bars-progress"></i>
                     <span style="margin-left: 9px">Manage Hampers</span></a>
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{url('loginEmployee')}}"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Logout</span></a>
 
             </div>
@@ -105,7 +108,7 @@
                     <button class="btn" id="sidebarToggle" style="color: #ffffff; background-color: #4B270F"><i class="fas fa-bars"></i></button>
                     <div>
                         <div class="d-flex align-items-center ms-auto mt-2 mt-lg-0 gap-3">
-                            <p class="brand-nav">Atma Bakery</p>
+                            <p class="brand-nav">Atma Kitchen</p>
                             <!-- <img class="logo" src="{{ asset('img/logosekolah.png') }}" alt="logo_sekolah"> -->
                         </div>
                     </div>
