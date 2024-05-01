@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Edit Movie</h1>
+                <h1 class="m-0">Edit Produk</h1>
             </div>
 
         </div>
@@ -26,7 +26,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Nama Produk</label>
-                                    <input type="text" class="form-control @error('nama_produk') is-invalid @enderror" name="nama_produk" value="{{ old('class',$produk->nama_produk) }}" placeholder="Masukkan Nama Produk">
+                                    <input type="text" class="form-control @error('nama_produk') is-invalid @enderror" name="nama_produk" value="{{ old('class',$produk->nama_produk) }}" placeholder="Masukkan Nama Produk" required>
                                     @error('nama_produk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -37,7 +37,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Harga Produk</label>
-                                    <input type="text" class="form-control @error('harga_produk') is-invalid @enderror" name="harga_produk" value="{{ old('class',$produk->harga_produk) }}" placeholder="Masukkan Harga Produk">
+                                    <input type="text" class="form-control @error('harga_produk') is-invalid @enderror" name="harga_produk" value="{{ old('class',$produk->harga_produk) }}" placeholder="Masukkan Harga Produk" required>
                                     @error('harga_produk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -48,7 +48,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Satuan Produk</label>
-                                    <input type="text" class="form-control @error('satuan_produk') is-invalid @enderror" name="satuan_produk" value="{{ old('class',$produk->satuan_produk) }}" placeholder="Masukkan satuan Produk">
+                                    <input type="text" class="form-control @error('satuan_produk') is-invalid @enderror" name="satuan_produk" value="{{ old('class',$produk->satuan_produk) }}" placeholder="Masukkan satuan Produk" required>
                                     @error('satuan_produk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -59,7 +59,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Stok Produk</label>
-                                    <input type="number" class="form-control @error('stok_produk') is-invalid @enderror" name="stok_produk" value="{{ old('class',$produk->stok_produk) }}" placeholder="Masukkan Harga Produk">
+                                    <input type="number" class="form-control @error('stok_produk') is-invalid @enderror" name="stok_produk" value="{{ old('class',$produk->stok_produk) }}" placeholder="Masukkan Harga Produk" required>
                                     @error('stok_produk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -70,7 +70,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Kategori</label>
-                                    <select class="form-control @error('id') is-invalid @enderror" name="id_kategori">
+                                    <select class="form-control @error('id') is-invalid @enderror" name="id_kategori" required>
                                         <option selected value="">Pilih Kategori</option>
                                         @foreach($kategori as $k)
                                         @php
@@ -108,6 +108,7 @@
                             </div>
                             <button type="submit" class="btn btn-md " style="background-color: #813C3F; border-color:#813C3F; color:white">SIMPAN</button>
                         </form>
+
                     </div>
                     <!-- /.card-body -->
                 </div>

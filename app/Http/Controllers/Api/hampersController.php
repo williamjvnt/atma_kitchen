@@ -37,38 +37,37 @@ class hampersController extends Controller
         $validate = Validator::make($storeData, [
             'nama_hampers' => 'required|max:60',
             'harga_hampers' => 'required',
-            'id_bahan_baku' => 'required',
+
         ]);
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-
-        $content = hampers::create($storeData);
-        return response([
-            'message' => 'Add Hampers Success',
-            'data' => $content
-        ], 200);
+        $storeData['id_bahan_baku'] = 1;
+        hampers::create($storeData);
+        return redirect()->route('manageHampers');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        $hampers = hampers::find($id);
-
-        if (!is_null($hampers)) {
-            return response([
-                'message' => 'Hampers found, it is ' . $hampers->title,
-                'data' => $hampers
-            ], 200);
+        try {
+            $nama_hampers = $request->input('nama_hampers');
+            if ($nama_hampers !== null) {
+                $hampers = Hampers::where('nama_hampers', 'like', '%' . $nama_hampers . '%')->get();
+                if ($hampers->isNotEmpty()) {
+                    return view('admin.manageHampers', ['hampers' => $hampers]);
+                } else {
+                    return view('admin.manageHampers')->with('error', 'hampers Not Found');
+                }
+            } else {
+                return view('admin.manageHampers')->with('error', 'Nama hampers tidak boleh kosong');
+            }
+        } catch (\Exception $e) {
+            return view('admin.manageHampers')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        return response([
-            'message' => 'Hampers Not Found',
-            'data' => null
-        ], 404);
     }
 
     /**
@@ -100,10 +99,7 @@ class hampersController extends Controller
         $hampers->id_bahan_baku = $updateData['id_bahan_baku'];
 
         if ($hampers->save()) {
-            return response([
-                'message' => 'Update Hampers Success',
-                'data' => $hampers
-            ], 200);
+            return redirect()->route('manageHampers');
         }
 
         return response([
@@ -127,10 +123,7 @@ class hampersController extends Controller
         }
 
         if ($hampers->delete()) {
-            return response([
-                'message' => 'Delete Hampers Success',
-                'data' => $hampers
-            ], 200);
+            return redirect()->route('manageHampers');
         }
 
         return response([

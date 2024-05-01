@@ -88,8 +88,8 @@
                     <span style="margin-left: 9px">Manager Karyawan</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Manager Penitip</span></a>
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
-                    <span style="margin-left: 9px">Manager Pembelian Bahan Baku</span></a>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('managePengadaan')}}"><i class="fas fa-right-from-bracket"></i>
+                    <span style="margin-left: 9px">Manager Pengadaan Bahan Baku</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Manager Pengeluaran Lain</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{url('loginEmployee')}}"><i class="fas fa-right-from-bracket"></i>

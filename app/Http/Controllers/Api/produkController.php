@@ -45,9 +45,9 @@ class produkController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response(['message' => $validate->errors()], 400);
+            return redirect()->route('produk.add')->withErrors($validate)->withInput();
         }
-
+        dd($storeData['harga_produk']);
         produk::create($storeData);
         return redirect()->route('manageProduk');
     }
@@ -55,22 +55,26 @@ class produkController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        $produk = produk::find($id);
-
-        if (!is_null($produk)) {
-            return response([
-                'message' => 'Product found, it is ' . $produk->title,
-                'data' => $produk
-            ], 200);
+        try {
+            $nama_produk = $request->input('nama_produk');
+            if ($nama_produk !== null) {
+                $produk = Produk::where('nama_produk', 'like', '%' . $nama_produk . '%')->get();
+                if ($produk->isNotEmpty()) {
+                    return view('admin.manageProduk', ['produk' => $produk]);
+                } else {
+                    return view('admin.manageProduk')->with('error', 'Produk Not Found');
+                }
+            } else {
+                return view('admin.manageProduk')->with('error', 'Nama produk tidak boleh kosong');
+            }
+        } catch (\Exception $e) {
+            return view('admin.manageProduk')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        return response([
-            'message' => 'Product Not Found',
-            'data' => null
-        ], 404);
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -94,7 +98,7 @@ class produkController extends Controller
             'id_kategori' => 'required',
             'id_penitip' => 'nullable',
         ]);
-
+        //dd($updateData);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }

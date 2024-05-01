@@ -17,33 +17,29 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form class="d-flex pb-3" role="search" action="{{ route('produk.show')}}" method="GET">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="nama_produk">
+                        <form class="d-flex pb-3" role="search" action="{{ route('hampers.show')}}" method="GET">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="nama_hampers">
                             <button class="btn" type="submit" style="background-color: #813C3F; border-color:#813C3F; color:white">Search</button>
                         </form>
-                        <a href="{{route('produk.add') }}" class="btn btn-md mb-3 " style="background-color: #813C3F; border-color:#813C3F; color:white">TAMBAH PRODUK</a>
+                        <a href="{{route('hampers.add') }}" class="btn btn-md mb-3 " style="background-color: #813C3F; border-color:#813C3F; color:white">TAMBAH HAMPERS</a>
                         <div class="table-responsive p-0">
                             <table class="table table-hover text-no-wrap">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Nama Produk</th>
-                                        <th class="text-center">Harga Produk</th>
-                                        <th class="text-center">Satuan</th>
-                                        <th class="text-center">Stok</th>
+                                        <th class="text-center">Nama Hampers</th>
+                                        <th class="text-center">Harga Hampers</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @isset($produk)
-                                    @forelse($produk as $item)
+                                    @isset($hampers)
+                                    @forelse($hampers as $item)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $item->nama_produk }}</td>
-                                        <td class="text-center align-middle">Rp. {{ $item->harga_produk }}</td>
-                                        <td class="text-center align-middle">{{ $item->satuan_produk }}</td>
-                                        <td class="text-center align-middle">{{ $item->stok_produk }}</td>
+                                        <td class="text-center align-middle">{{ $item->nama_hampers }}</td>
+                                        <td class="text-center align-middle">Rp. {{ $item->harga_hampers }}</td>
                                         <td class="text-center align-middle">
-                                            <form action="{{ route('produk.destroy', $item->id) }}" method="POST">
-                                                <a href="{{ route('produk.edit', $item->id) }}" class="btn btn-sm btn-primary">EDIT</a>
+                                            <form action="{{ route('hampers.destroy', $item->id) }}" method="POST">
+                                                <a href="{{ route('hampers.edit', $item->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda Yakin ?')">Hapus</button>
@@ -54,7 +50,7 @@
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div class="alert alert-danger">
-                                                Data Produk belum tersedia.
+                                                Data Hampers belum tersedia.
                                             </div>
                                         </td>
                                     </tr>
@@ -63,11 +59,10 @@
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div class="alert alert-danger">
-                                                Tidak ada data Produk yang ditemukan.
+                                                Tidak ada data Hampers yang ditemukan.
                                             </div>
                                         </td>
                                     </tr>
-
                                     @endisset
                                 </tbody>
                             </table>

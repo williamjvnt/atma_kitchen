@@ -11,16 +11,16 @@ Route::post('/loginEmployee', [App\Http\Controllers\Api\karyawanController::clas
 
 Route::get('/produk', [App\Http\Controllers\Api\produkController::class, 'index']);
 Route::post('/produk', [App\Http\Controllers\Api\ProdukController::class, 'store'])->name('produk.store');
-Route::get('/produk/{id}', [App\Http\Controllers\Api\produkController::class, 'show']);
+Route::get('/produk', [App\Http\Controllers\Api\produkController::class, 'show'])->name('produk.show');
 Route::put('/produk/{id}', [App\Http\Controllers\Api\produkController::class, 'update'])->name('produk.update');
-Route::delete('/produk/{id}', [App\Http\Controllers\Api\produkController::class, 'destroy'])->name('produk.destroy');;
+Route::delete('/produk/{id}', [App\Http\Controllers\Api\produkController::class, 'destroy'])->name('produk.destroy');
 
 
 Route::get('/hampers', [App\Http\Controllers\Api\hampersController::class, 'index']);
-Route::post('/hampers', [App\Http\Controllers\Api\hampersController::class, 'store']);
-Route::get('/hampers/{id}', [App\Http\Controllers\Api\hampersController::class, 'show']);
-Route::put('/hampers/{id}', [App\Http\Controllers\Api\hampersController::class, 'update']);
-Route::delete('/hampers/{id}', [App\Http\Controllers\Api\hampersController::class, 'destroy']);
+Route::post('/hampers', [App\Http\Controllers\Api\hampersController::class, 'store'])->name('hampers.store');
+Route::get('/hampers', [App\Http\Controllers\Api\hampersController::class, 'show'])->name('hampers.show');
+Route::put('/hampers/{id}', [App\Http\Controllers\Api\hampersController::class, 'update'])->name('hampers.update');
+Route::delete('/hampers/{id}', [App\Http\Controllers\Api\hampersController::class, 'destroy'])->name('hampers.destroy');
 
 
 Route::get('/bahanBaku', [App\Http\Controllers\Api\bahanBakuController::class, 'index']);
@@ -28,3 +28,9 @@ Route::post('/bahanBaku', [App\Http\Controllers\Api\bahanBakuController::class, 
 Route::get('/bahanBaku/{id}', [App\Http\Controllers\Api\bahanBakuController::class, 'show']);
 Route::put('/bahanBaku/{id}', [App\Http\Controllers\Api\bahanBakuController::class, 'update']);
 Route::delete('/bahanBaku/{id}', [App\Http\Controllers\Api\bahanBakuController::class, 'destroy']);
+
+Route::get('/pengadaan', [App\Http\Controllers\Api\pengadaanBahanBakuController::class, 'index']);
+Route::post('/pengadaan', [App\Http\Controllers\Api\detailPengadaanBahanBakuController::class, 'store'])->name('pengadaan.store');
+Route::get('/pengadaan', [App\Http\Controllers\Api\pengadaanBahanBakuController::class, 'show'])->name('pengadaan.show');
+Route::put('/pengadaan/{id}', [App\Http\Controllers\Api\detailPengadaanBahanBakuController::class, 'update'])->name('pengadaan.update');
+Route::delete('/pengadaan/{id}', [App\Http\Controllers\Api\pengadaanBahanBakuController::class, 'destroy'])->name('pengadaan.destroy');

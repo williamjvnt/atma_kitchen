@@ -93,7 +93,7 @@
                     <span style="margin-left: 10px">Manage Resep</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-solid fa-bars-progress"></i>
                     <span style="margin-left: 9px">Manage Bahan Baku</span></a>
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fa-solid fa-bars-progress"></i>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('manageHampers')}}"><i class="fa-solid fa-bars-progress"></i>
                     <span style="margin-left: 9px">Manage Hampers</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{url('loginEmployee')}}"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Logout</span></a>
@@ -122,6 +122,7 @@
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
 
 </body>
