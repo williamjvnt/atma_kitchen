@@ -3,6 +3,17 @@
 <div class="content-header">
     <div class="container-fluid">
         <h1>Atma Kitchen - Bahan Baku</h1>
+        <div class="row mb-3">
+            <div class="col">
+                <form action="{{ route('bahanBaku.search') }}" method="GET" class="form-inline">
+                    <div class="form-group mr-2">
+                        <input type="text" name="search" class="form-control" placeholder="Cari bahan baku">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </form>
+            </div>
+        </div>
+        <a href="{{ route('bahanBaku.create') }}" class="btn btn-primary mb-3">Tambah Bahan Baku</a>
         <table>
             <thead>
                 <tr>

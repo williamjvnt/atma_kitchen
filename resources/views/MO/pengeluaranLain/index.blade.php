@@ -3,6 +3,17 @@
 <div class="content-header">
     <div class="container-fluid">
         <h1>Atma Kitchen - Pengeluaran Lain-Lain</h1>
+        <div class="row mb-3">
+            <div class="col">
+                <form action="{{ route('pengeluaranLain.search') }}" method="GET" class="form-inline">
+                    <div class="form-group mr-2">
+                        <input type="text" name="search" class="form-control" placeholder="Cari pengeluaran lain">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </form>
+            </div>
+        </div>
+        <a href="{{ route('pengeluaranLain.create') }}" class="btn btn-primary mb-3">Tambah Pengeluaran Lain</a>
         <table>
             <thead>
                 <tr>
