@@ -3,6 +3,17 @@
 <div class="content-header">
     <div class="container-fluid">
         <h1>Atma Kitchen - Penitip</h1>
+        <div class="row mb-3">
+            <div class="col">
+                <form action="{{ route('penitip.search') }}" method="GET" class="form-inline">
+                    <div class="form-group mr-2">
+                        <input type="text" name="search" class="form-control" placeholder="Cari penitip">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </form>
+            </div>
+        </div>
+        <a href="{{ route('penitip.create') }}" class="btn btn-primary mb-3">Tambah Penitip</a>
         <table>
             <thead>
                 <tr>
