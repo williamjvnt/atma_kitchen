@@ -1,5 +1,6 @@
-@extends ('MO.navbarMODashboard')
+@extends ('admin.navbarAdminDashboard')
 @section('content')
+
 <div class="container-details">
     <div class="content-header">
         <div class="container-fluid">
@@ -16,36 +17,33 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form class="d-flex pb-3" role="search" action="{{ route('pengadaan.show')}}" method="GET">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="tanggal_pengadaan">
+                        <form class="d-flex pb-3" role="search" action="{{ route('bahanBaku.show')}}" method="GET">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="nama_bahan_baku">
                             <button class="btn" type="submit" style="background-color: #813C3F; border-color:#813C3F; color:white">Search</button>
                         </form>
-                        <a href="{{route('pengadaan.add') }}" class="btn btn-md mb-3 " style="background-color: #813C3F; border-color:#813C3F; color:white">TAMBAH PENGADAAN</a>
+                        <a href="{{route('bahanbaku.add') }}" class="btn btn-md mb-3 " style="background-color: #813C3F; border-color:#813C3F; color:white">TAMBAH Bahan Baku</a>
                         <div class="table-responsive p-0">
                             <table class="table table-hover text-no-wrap">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Tanggal Pengadaan</th>
-                                        <th class="text-center">Harga Bahan Baku</th>
-                                        <th class="text-center">jumlah Pengadaan Bahan Baku</th>
-                                        <th class="text-center">Total Harga Pengadaan</th>
                                         <th class="text-center">Nama Bahan Baku</th>
+                                        <th class="text-center">Stok Bahan Baku</th>
+                                        <th class="text-center">Minimal Stok Bahan Baku</th>
+                                        <th class="text-center">Satuan Bahan Baku</th>
                                         <th class="text-center">Aksi</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @isset($detail)
-                                    @forelse($detail as $item)
+                                    @isset($bahan_baku)
+                                    @forelse($bahan_baku as $item)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $item->Pengadaan->tanggal_pengadaan}}</td>
-                                        <td class="text-center align-middle">Rp. {{ $item->pengadaan->harga_bahan_baku }}</td>
-                                        <td class="text-center align-middle">{{ $item->jumlah_detail_pengadaan }}</td>
-                                        <td class="text-center align-middle">{{ $item->subTotal_detail_pengadaan }}</td>
-                                        <td class="text-center align-middle">{{ $item->bahan_baku->nama_bahan_baku }}</td>
-                                        <td class="text-center align-middle" style="border-top: 1px solid #dee2e6;">
-                                            <form action="{{ route('pengadaan.destroy', $item->Pengadaan->id) }}" method="POST">
-                                                <a href="{{ route('pengadaan.edit', $item->Pengadaan->id) }}" class="btn btn-sm btn-primary">EDIT</a>
+                                        <td class="text-center align-middle">{{ $item->nama_bahan_baku }}</td>
+                                        <td class="text-center align-middle">{{ $item->stok_bahan_baku }}</td>
+                                        <td class="text-center align-middle">{{ $item->min_stok_bahan_baku }}</td>
+                                        <td class="text-center align-middle">{{ $item->satuan_bahan_baku }}</td>
+                                        <td class="text-center align-middle">
+                                            <form action="{{ route('bahanBaku.destroy', $item->id) }}" method="POST">
+                                                <a href="{{ route('bahanbaku.edit', $item->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda Yakin ?')">Hapus</button>
@@ -56,7 +54,7 @@
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div class="alert alert-danger">
-                                                Data Pengadaan belum tersedia.
+                                                Data Bahan Baku belum tersedia.
                                             </div>
                                         </td>
                                     </tr>
@@ -65,13 +63,12 @@
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div class="alert alert-danger">
-                                                Tidak ada data Pengadaan yang ditemukan.
+                                                Tidak ada data Bahan Baku yang ditemukan.
                                             </div>
                                         </td>
                                     </tr>
 
                                     @endisset
-
                                 </tbody>
                             </table>
                         </div>
@@ -89,6 +86,5 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 
 @endsection

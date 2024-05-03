@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\DetailPengadaanController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KaryawanController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\KategoriProdukController;
 use App\Http\Controllers\penitipController;
 use App\Http\Controllers\hampersController;
 use App\Http\Controllers\PengadaanBahanBakuController;
+use App\Http\Controllers\ResepProdukController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,7 +38,14 @@ route::get('Admin/managehampers', [hampersController::class, 'index'])->name('ma
 Route::get('hampers/create', [hampersController::class, 'create'])->name('hampers.add');
 Route::get('hampers/edit/{id}', [hampersController::class, 'edit'])->name('hampers.edit');
 
+route::get('Admin/manageresep', [ResepProdukController::class, 'index'])->name('manageResep');
+Route::get('resep/create', [ResepProdukController::class, 'create'])->name('resep.add');
+Route::get('resep/edit/{id}', [ResepProdukController::class, 'edit'])->name('resep.edit');
 
+
+route::get('Admin/managebahanbaku', [BahanBakuController::class, 'index'])->name('manageBahanbaku');
+Route::get('bahanbaku/create', [BahanBakuController::class, 'create'])->name('bahanbaku.add');
+Route::get('bahanbaku/edit/{id}', [BahanBakuController::class, 'edit'])->name('bahanbaku.edit');
 //MO
 Route::get('dashboardMO', function () {
     return view('/MO/navbarMODashboard');

@@ -42,34 +42,34 @@ class bahanBakuController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response(['message' => $validate->errors()], 400);
+            return redirect()->route('bahanbaku.add')->withErrors($validate)->withInput();
         }
 
         $bahan_baku = bahan_baku::create($storeData);
-        return response([
-            'message' => 'Add Bahan Baku Success',
-            'data' => $bahan_baku
-        ], 200);
+        return redirect()->route('manageBahanbaku');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(request $request)
     {
-        $bahan_baku = bahan_baku::find($id);
-
-        if (!is_null($bahan_baku)) {
-            return response([
-                'message' => 'Bahan Baku found, it is ' . $bahan_baku->title,
-                'data' => $bahan_baku
-            ], 200);
+        try {
+            $nama_bahan_baku = $request->input('nama_bahan_baku');
+            if ($nama_bahan_baku !== null) {
+                $bahan_baku = bahan_baku::where('nama_bahan_baku', 'like', '%' . $nama_bahan_baku . '%')->get();
+                if ($bahan_baku->isNotEmpty()) {
+                    // dd($bahan_baku);
+                    return view('admin.manageBahanbaku', ['bahan_baku' => $bahan_baku]);
+                } else {
+                    return view('admin.manageBahanbaku')->with('error', 'Bahan baku Not Found');
+                }
+            } else {
+                return view('admin.manageBahanbaku')->with('error', 'Nama Bahan baku tidak boleh kosong');
+            }
+        } catch (\Exception $e) {
+            return view('admin.manageBahanbaku')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
-
-        return response([
-            'message' => 'Bahan Baku Not Found',
-            'data' => null
-        ], 404);
     }
 
     /**
@@ -92,7 +92,7 @@ class bahanBakuController extends Controller
             'min_stok_bahan_baku' => 'required',
             'satuan_bahan_baku' => 'required',
         ]);
-
+        // dd($updateData);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
@@ -103,10 +103,7 @@ class bahanBakuController extends Controller
         $bahan_baku->satuan_bahan_baku = $updateData['satuan_bahan_baku'];
 
         if ($bahan_baku->save()) {
-            return response([
-                'message' => 'Update Bahan Baku Success',
-                'data' => $bahan_baku
-            ], 200);
+            return redirect()->route('manageBahanbaku');
         }
 
         return response([
@@ -130,10 +127,7 @@ class bahanBakuController extends Controller
         }
 
         if ($bahan_baku->delete()) {
-            return response([
-                'message' => 'Delete Bahan baku Success',
-                'data' => $bahan_baku
-            ], 200);
+            return redirect()->route('manageBahanbaku');
         }
 
         return response([

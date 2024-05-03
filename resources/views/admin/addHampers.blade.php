@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <form action="{{ route('hampers.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-row">
+                            <div class="form-row pb-3">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Nama Hampers</label>
                                     <input type="text" class="form-control @error('nama_hampers') is-invalid @enderror" name="nama_hampers" value="{{ old('nama_hampers') }}" placeholder="Masukkan Nama hampers" required>

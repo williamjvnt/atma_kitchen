@@ -15,4 +15,9 @@ class resep_produk extends Model
         'nama_resep',
         'id_produk',
     ];
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id_produk');
+    }
 }

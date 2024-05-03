@@ -47,7 +47,7 @@ class produkController extends Controller
         if ($validate->fails()) {
             return redirect()->route('produk.add')->withErrors($validate)->withInput();
         }
-        dd($storeData['harga_produk']);
+        // dd($storeData['harga_produk']);
         produk::create($storeData);
         return redirect()->route('manageProduk');
     }

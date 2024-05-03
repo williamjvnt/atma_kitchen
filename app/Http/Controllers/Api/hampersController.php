@@ -87,7 +87,6 @@ class hampersController extends Controller
         $validate = Validator::make($updateData, [
             'nama_hampers' => 'required|max:60',
             'harga_hampers' => 'required',
-            'id_bahan_baku' => 'required',
         ]);
 
         if ($validate->fails()) {
@@ -96,7 +95,6 @@ class hampersController extends Controller
 
         $hampers->nama_hampers = $updateData['nama_hampers'];
         $hampers->harga_hampers = $updateData['harga_hampers'];
-        $hampers->id_bahan_baku = $updateData['id_bahan_baku'];
 
         if ($hampers->save()) {
             return redirect()->route('manageHampers');

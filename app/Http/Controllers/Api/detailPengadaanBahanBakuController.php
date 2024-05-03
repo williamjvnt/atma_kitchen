@@ -48,8 +48,14 @@ class detailPengadaanBahanBakuController extends Controller
             ]);
             //dd($pengadaan);
             $id_bahan = bahan_baku::where('nama_bahan_baku', $storeData['nama_bahan_baku'])->first();
-            $subtotal = $storeData['harga_bahan_baku'] * $storeData['jumlah_detail_pengadaan'];
+            if ($id_bahan) {
+                $id_bahan->stok_bahan_baku += $storeData['jumlah_detail_pengadaan'];
 
+                $id_bahan->save();
+            } else {
+                return redirect()->route('pengadaan.add')->withErrors($validate)->withInput();
+            }
+            $subtotal = $storeData['harga_bahan_baku'] * $storeData['jumlah_detail_pengadaan'];
 
             detail_pengadaan::create([
                 'jumlah_detail_pengadaan' => $storeData['jumlah_detail_pengadaan'],
@@ -72,9 +78,30 @@ class detailPengadaanBahanBakuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        try {
+            $tanggal_pengadaan = $request->input('tanggal_pengadaan');
+            if ($tanggal_pengadaan !== null) {
+                $detail = detail_pengadaan::whereHas('pengadaan', function ($query) use ($tanggal_pengadaan) {
+                    $query->whereDate('tanggal_pengadaan', 'like', '%' . $tanggal_pengadaan . '%');
+                })->get();
+                // dd($detail);
+                if ($detail->isNotEmpty()) {
+                    // dd($detail);
+                    return view('MO.managePengadaan', ['detail' => $detail]);
+                } else {
+
+                    dd('masuk');
+                    return view('MO.managePengadaan')->with('error', 'pengadaan Not Found');
+                }
+            } else {
+                return view('MO.managePengadaan')->with('error', 'Nama pengadaan tidak boleh kosong');
+            }
+        } catch (\Exception $e) {
+
+            return view('MO.managePengadaan')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -102,12 +129,29 @@ class detailPengadaanBahanBakuController extends Controller
             //dd($id);
             $pengadaan->harga_bahan_baku = $updateData['harga_bahan_baku'];
             $pengadaan->save();
-            // dd($updateData['nama_bahan_baku']);
+            // dd($pengadaan);
+            $detail_pengadaan = detail_pengadaan::where('id_pengadaan', $id)->first();
+            // dd($detail_pengadaan);
             $id_bahan = bahan_baku::find($updateData['nama_bahan_baku']);
+            $bahan_before = bahan_baku::find($detail_pengadaan['id_bahan_baku']);
+            // dd($bahan_before->id);
+            if ($id_bahan->id === $bahan_before->id) {
+                $selisi = $id_bahan->stok_bahan_baku -= $detail_pengadaan['jumlah_detail_pengadaan'];
+                $selisi = $id_bahan->stok_bahan_baku += $updateData['jumlah_detail_pengadaan'];
+
+                $id_bahan->stok_bahan_baku = $selisi;
+                $id_bahan->save();
+            } else {
+                // dd('true');
+                $bahan_before->stok_bahan_baku -= $detail_pengadaan['jumlah_detail_pengadaan'];
+                $id_bahan->stok_bahan_baku += $updateData['jumlah_detail_pengadaan'];
+                $id_bahan->save();
+                $bahan_before->save();
+            }
             // dd($idBahanBaku);
             $subtotal = $updateData['harga_bahan_baku'] * $updateData['jumlah_detail_pengadaan'];
             // dd('masuk');
-            $detail_pengadaan = detail_pengadaan::where('id_pengadaan', $id)->first();
+
 
             $detail_pengadaan->update([
                 'id_bahan_baku' => $id_bahan->id,

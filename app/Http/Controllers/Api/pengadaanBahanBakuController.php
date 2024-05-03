@@ -44,18 +44,24 @@ class pengadaanBahanBakuController extends Controller
     public function show(Request $request)
     {
         try {
-            $tanggal = $request->input('tanggal_pengadaan');
-            $data = pengadaan_bahan_baku::query();
-            if ($tanggal !== null) {
-                $data->whereDate('tanggal_pengadaan', $tanggal);
+            $tanggal_pengadaan = $request->input('tanggal_pengadaan');
+            if ($tanggal_pengadaan !== null) {
+                $pengadaan = pengadaan_bahan_baku::where('tanggal_pengadaan', 'like', '%' . $tanggal_pengadaan . '%')->get();
+                if ($pengadaan->isNotEmpty()) {
+                    //dd($pengadaan);
+                    return view('MO.managePengadaan', ['pengadaan' => $pengadaan]);
+                } else {
+                    return view('MO.managePengadaan')->with('error', 'pengadaan Not Found');
+                }
+            } else {
+                return view('MO.managePengadaan')->with('error', 'Nama pengadaan tidak boleh kosong');
             }
-            $data->orderBy('tanggal_pengadaan', 'desc');
-            $data = $data->get();
-            return view('MO.managePengadaan', compact('data'));
         } catch (\Exception $e) {
+
             return view('MO.managePengadaan')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
 
 
 
