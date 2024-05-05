@@ -42,7 +42,7 @@ class KaryawanController extends Controller
         }
     }
 
-
+    
     public function actionLogout(Request $request)
     {
 

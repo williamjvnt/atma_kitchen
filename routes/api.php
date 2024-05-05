@@ -40,3 +40,15 @@ Route::post('/pengadaan', [App\Http\Controllers\Api\detailPengadaanBahanBakuCont
 Route::get('/pengadaan', [App\Http\Controllers\Api\detailPengadaanBahanBakuController::class, 'show'])->name('pengadaan.show');
 Route::put('/pengadaan/{id}', [App\Http\Controllers\Api\detailPengadaanBahanBakuController::class, 'update'])->name('pengadaan.update');
 Route::delete('/pengadaan/{id}', [App\Http\Controllers\Api\pengadaanBahanBakuController::class, 'destroy'])->name('pengadaan.destroy');
+
+Route::get('/PengeluaranLain', [App\Http\Controllers\Api\pengeluaranLainController::class, 'index']);
+Route::post('/PengeluaranLain', [App\Http\Controllers\Api\pengeluaranLainController::class, 'store'])->name('pengeluaranLain.store');
+Route::get('/PengeluaranLain', [App\Http\Controllers\Api\pengeluaranLainController::class, 'show'])->name('pengeluaranLain.show');
+Route::put('/PengeluaranLain/{id}', [App\Http\Controllers\Api\pengeluaranLainController::class, 'update'])->name('pengeluaranLain.update');
+Route::delete('/PengeluaranLain/{id}', [App\Http\Controllers\Api\pengeluaranLainController::class, 'destroy'])->name('pengeluaranLain.destroy');
+
+Route::get('/Penitip', [App\Http\Controllers\Api\penitipController::class, 'index']);
+Route::post('/Penitip', [App\Http\Controllers\Api\penitipController::class, 'store'])->name('penitip.store');
+Route::get('/Penitip', [App\Http\Controllers\Api\penitipController::class, 'show'])->name('penitip.show');
+Route::put('/Penitip/{id}', [App\Http\Controllers\Api\penitipController::class, 'update'])->name('penitip.update');
+Route::delete('/Penitip/{id}', [App\Http\Controllers\Api\penitipController::class, 'destroy'])->name('penitip.destroy');

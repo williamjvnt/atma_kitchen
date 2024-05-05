@@ -30,6 +30,7 @@ class ProdukController extends Controller
     public function edit($id)
     {
         $produk = produk::find($id);
+        // dd($produk);
         $kategori = Kategori_produk::all();
 
         // Mengambil semua penitip

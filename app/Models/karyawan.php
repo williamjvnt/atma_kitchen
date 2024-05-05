@@ -22,4 +22,14 @@ class karyawan extends Model
         'id_role',
         'id_presensi',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(role::class, 'id_role');
+    }
+
+    public function presensi()
+    {
+        return $this->belongsTo(presensi::class, 'id_presensi');
+    }
 }

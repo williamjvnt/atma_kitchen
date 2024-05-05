@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PengeluaranLainController;
 use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\DetailPengadaanController;
 use App\Http\Controllers\ProdukController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\penitipController;
 use App\Http\Controllers\hampersController;
 use App\Http\Controllers\PengadaanBahanBakuController;
 use App\Http\Controllers\ResepProdukController;
+use App\Models\pengeluaran_lain;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -46,6 +48,8 @@ Route::get('resep/edit/{id}', [ResepProdukController::class, 'edit'])->name('res
 route::get('Admin/managebahanbaku', [BahanBakuController::class, 'index'])->name('manageBahanbaku');
 Route::get('bahanbaku/create', [BahanBakuController::class, 'create'])->name('bahanbaku.add');
 Route::get('bahanbaku/edit/{id}', [BahanBakuController::class, 'edit'])->name('bahanbaku.edit');
+
+
 //MO
 Route::get('dashboardMO', function () {
     return view('/MO/navbarMODashboard');
@@ -54,3 +58,11 @@ Route::get('dashboardMO', function () {
 route::get('MO/managePengadaanBahanBaku', [DetailPengadaanController::class, 'index'])->name('managePengadaan');
 Route::get('pengadaan/create', [DetailPengadaanController::class, 'create'])->name('pengadaan.add');
 Route::get('pengadaan/edit/{id}', [DetailPengadaanController::class, 'edit'])->name('pengadaan.edit');
+
+route::get('MO/managePenitip', [penitipController::class, 'index'])->name('managePenitip');
+Route::get('penitip/create', [penitipController::class, 'create'])->name('penitip.add');
+Route::get('penitip/edit/{id}', [penitipController::class, 'edit'])->name('penitip.edit');
+
+route::get('MO/managePengeluaranLain', [PengeluaranLainController::class, 'index'])->name('managePengeluaranLain');
+Route::get('PengeluaranLain/create', [PengeluaranLainController::class, 'create'])->name('pengeluaranLain.add');
+Route::get('PengeluaranLain/edit/{id}', [PengeluaranLainController::class, 'edit'])->name('pengeluaranLain.edit');
