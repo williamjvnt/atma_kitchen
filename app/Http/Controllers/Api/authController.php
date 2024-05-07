@@ -53,7 +53,7 @@ class authController extends Controller
         $details = [
             'email' => $request->email_customer,
             'username' => $request->username,
-            'website' => 'Atma Library',
+            'website' => 'Atma Kitchen',
             'datetime' => date('Y-m-d H:i:s'),
             'url' => request()->getHttpHost() . '/register/verify/' . $str
         ];

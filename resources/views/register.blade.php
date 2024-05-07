@@ -75,16 +75,6 @@
                 </div>
 
 
-
-
-                <div class="form-check ">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Remember Me
-                    </label>
-                    <a href="#" style="display: inline; color:blue; margin-left: 11rem;">Forget Password</a>
-                </div>
-
                 <div class="form-floating mb-3 d-grid">
                     <button type="submit" class="btn btn-primary col-6 mb-3 mt-4 mx-auto" style="background-color: #813C3F; border-color:#813C3F;">Daftar</button>
                 </div>
