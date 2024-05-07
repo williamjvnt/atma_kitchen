@@ -24,6 +24,7 @@ class customer extends Authenticatable
         'tanggal_lahir_customer',
         'jumlah_saldo',
         'status',
+        'verify_key',
     ];
 
     protected $hidden = [

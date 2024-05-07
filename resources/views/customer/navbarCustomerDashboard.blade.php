@@ -80,28 +80,24 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar">
-
                 <ul class="navbar-nav ms-auto me-5" id="li-nav">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url('/') }}">Home Page</a>
+                        <a class="nav-link" aria-current="page" href="{{ route('home')}}">Home Page</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('actionLogout')}}">Product</a>
+                        <a class="nav-link" href="{{ url('project') }}">Product</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('about') }}"><i class="fa-solid fa-basket-shopping"></i></a>
                     </li>
+
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('login') }}">Login</a>
+                        <a class="nav-link" href="{{ route('actionLogout')}}">Logout</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">Daftar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="admin" href="{{ url('loginEmployee') }}">Login As Employee</a>
-                    </li>
+
                 </ul>
+
             </div>
         </div>
     </nav>

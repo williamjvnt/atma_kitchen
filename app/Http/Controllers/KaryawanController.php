@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\karyawan;
+use App\Models\role;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\hash;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,26 @@ class KaryawanController extends Controller
         }
     }
 
-    
+    public function view()
+    {
+        $karyawan = karyawan::whereIn('id_role', [2, 3])->get();
+        // dd($bahan);
+        return view('MO.manageKaryawan', compact('karyawan'));
+    }
+
+    public function create()
+    {
+        $karyawan = karyawan::all();
+
+        return view('MO.addKaryawan', compact('karyawan'));
+    }
+
+    public function edit($id)
+    {
+        $karyawan = karyawan::find($id);
+        return view('MO.editKaryawan', compact('karyawan'));
+    }
+
     public function actionLogout(Request $request)
     {
 

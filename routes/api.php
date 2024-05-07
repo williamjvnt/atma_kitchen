@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/register', [App\Http\Controllers\Api\authController::class, 'register']);
-Route::post('/login', [App\Http\Controllers\Api\authController::class, 'login']);
-Route::post('/loginEmployee', [App\Http\Controllers\Api\karyawanController::class, 'login']);
+Route::post('/login', [App\Http\Controllers\Api\authController::class, 'login'])->name('loginCust');
+Route::post('/register', [App\Http\Controllers\Api\authController::class, 'register'])->name('registerCust');
 
 
 Route::get('/produk', [App\Http\Controllers\Api\produkController::class, 'index']);
@@ -52,3 +52,9 @@ Route::post('/Penitip', [App\Http\Controllers\Api\penitipController::class, 'sto
 Route::get('/Penitip', [App\Http\Controllers\Api\penitipController::class, 'show'])->name('penitip.show');
 Route::put('/Penitip/{id}', [App\Http\Controllers\Api\penitipController::class, 'update'])->name('penitip.update');
 Route::delete('/Penitip/{id}', [App\Http\Controllers\Api\penitipController::class, 'destroy'])->name('penitip.destroy');
+
+// Route::post('/loginEmployee', [App\Http\Controllers\Api\karyawanController::class, 'login']);
+Route::post('/karyawan', [App\Http\Controllers\Api\karyawanController::class, 'store'])->name('karyawan.store');
+Route::get('/karyawan', [App\Http\Controllers\Api\karyawanController::class, 'show'])->name('karyawan.show');
+Route::put('/karyawan/{id}', [App\Http\Controllers\Api\karyawanController::class, 'update'])->name('karyawan.update');
+Route::delete('/karyawan/{id}', [App\Http\Controllers\Api\karyawanController::class, 'destroy'])->name('karyawan.destroy');

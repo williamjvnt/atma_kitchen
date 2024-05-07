@@ -11,22 +11,42 @@ use App\Http\Controllers\hampersController;
 use App\Http\Controllers\PengadaanBahanBakuController;
 use App\Http\Controllers\ResepProdukController;
 use App\Models\pengeluaran_lain;
+use App\Http\Controllers\CustomerController;
+use App\Models\customer;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return view('navbarDashboard');
-});
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/', function () {
+//         return view('customer/homePage');
+//     })->name('home');
+// });
+
+Route::get('/', [CustomerController::class, 'loginSuccess'])->name('login');
+Route::get('home', function () {
+    return view('customer/homePageCustomer');
+})->name('home');
+Route::get('register/verify/{verify_key}', [App\Http\Controllers\Api\authController::class, 'verify'])->name('verify');
+Route::get('logout', [CustomerController::class, 'actionLogout'])->name('actionLogout')->middleware('auth');
+// route::get('/', [CustomerController::class, 'login'])->name('login');
+// Route::get('/login', function () {
+//     return view('customer/loginCust');
+// })->name('login');
+
+// Route::post('/logout', function () {
+//     Auth::logout();
+//     return redirect('/');
+// })->name('logout');
 //customer
 Route::resource('login', App\Http\Controllers\CustomerController::class);
-
+Route::get('register', [CustomerController::class, 'register'])->name('register');
+// Route::get('HomePage', [CustomerController::class, 'loginSuccess'])->name('homePage');
 
 //employee
 Route::resource('loginEmployee', App\Http\Controllers\KaryawanController::class);
 Route::post('dashboardEmployee', [KaryawanController::class, 'actionLoginEmployee'])->name('dashboardEmployee');
 
 //admin
-
-
 
 Route::get('dashboardAdmin', function () {
     return view('/admin/navbarAdminDashboard');
@@ -66,3 +86,7 @@ Route::get('penitip/edit/{id}', [penitipController::class, 'edit'])->name('penit
 route::get('MO/managePengeluaranLain', [PengeluaranLainController::class, 'index'])->name('managePengeluaranLain');
 Route::get('PengeluaranLain/create', [PengeluaranLainController::class, 'create'])->name('pengeluaranLain.add');
 Route::get('PengeluaranLain/edit/{id}', [PengeluaranLainController::class, 'edit'])->name('pengeluaranLain.edit');
+
+route::get('MO/manageKaryawan', [KaryawanController::class, 'view'])->name('manageKaryawan');
+Route::get('karyawan/create', [karyawanController::class, 'create'])->name('karyawan.add');
+Route::get('karyawan/edit/{id}', [karyawanController::class, 'edit'])->name('karyawan.edit');

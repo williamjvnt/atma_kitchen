@@ -84,7 +84,7 @@
                 </div>
             </div>
             <div class="list-group list-group-flush">
-                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('manageKaryawan')}}"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Manager Karyawan</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('managePenitip')}}"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Manager Penitip</span></a>

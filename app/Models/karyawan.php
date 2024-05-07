@@ -15,7 +15,7 @@ class karyawan extends Model
         'nama_karyawan',
         'alamat_karyawan',
         'tanggal_lahir_karyawan',
-        'nomor_telepon_karyawan',
+        'no_hp_karyawan',
         'username',
         'password',
         'total_gaji',

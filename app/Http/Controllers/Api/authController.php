@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Mail\MailSend;
+use Illuminate\Support\str;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 
 class authController extends Controller
 {
@@ -17,69 +21,102 @@ class authController extends Controller
      */
     public function index()
     {
-        return view('/employeeLogin');
     }
+
+
 
     public function register(Request $request)
     {
-        $data = [
-            'username' => $request->input('username'),
-            'password' => $request->input('password'),
-        ];
         $registrationData = $request->all();
-
+        $str = Str::random(100);
         $validate = Validator::make($registrationData, [
             'nama_customer' => 'required|max:60',
             'no_telepon_customer' => 'required|regex:/^08\d{9,11}$/',
-            'email_customer' => 'required|email:rfc, dns|unique:customers',
             'username' => 'required|max:60',
             'password' => 'required|string|min:8',
+            'email_customer' => 'required|email:rfc, dns|unique:customers',
             'tanggal_lahir_customer' => 'required|date',
+
         ]);
 
         if ($validate->fails()) {
-            return response(['message' => $validate->errors()], 400);
+            dd($validate->errors());
+            return redirect('/register')->withErrors($validate)->withInput();
         }
 
         $registrationData['status'] = 0;
         $registrationData['password'] = bcrypt($request->password);
         $registrationData['poin_customer'] = 0;
         $registrationData['jumlah_saldo'] = 0;
-
-        $customer = customer::create($registrationData);
-
-        return response([
-            'message' => 'Register Success',
-            'user' => $customer
-        ], 200);
+        $registrationData['verify_key'] = $str;
+        customer::create($registrationData);
+        $details = [
+            'email' => $request->email_customer,
+            'username' => $request->username,
+            'website' => 'Atma Library',
+            'datetime' => date('Y-m-d H:i:s'),
+            'url' => request()->getHttpHost() . '/register/verify/' . $str
+        ];
+        Mail::to($request->email_customer)->send(new MailSend($details));
+        // $customer = customer::create($registrationData);
+        Session::flash('message', 'Link verifikasi telah dikirim ke email anda. Silahkan cek email anda untuk mengaktifkan akun.');
+        return redirect('/register');
     }
+    public function verify($verify_key)
+    {
+        $keyCheck = customer::select('verify_key')
+            ->where('verify_key', $verify_key)
+            ->exists();
 
+        if ($keyCheck) {
+            $customer = customer::where('verify_key', $verify_key)->update(['status' => 1]);
+            return "Verifikasi Berhasil";
+        } else {
+            return "Key tidak valid.";
+        }
+    }
     public function login(Request $request)
     {
-        $loginData = $request->all();
+        $loginData = $request->except('_token');
         $validate = Validator::make($loginData, [
             'username' => 'required',
             'password' => 'required'
         ]);
-        if ($validate->fails()) {
-            return response(['message' => $validate->errors()], 400);
-        }
 
+        if ($validate->fails()) {
+            Session::flash('error', 'Username atau Password Tidak Boleh Kosong');
+            return view('/customer/loginCust');
+        }
 
         if (!Auth::attempt($loginData)) {
-            return response(['message' => 'Invalid Credential'], 401);
+            Session::flash('error', 'Username atau Password salah');
+            return view('/customer/loginCust');
         }
 
+        // Pengguna berhasil diotentikasi
         $user = Auth::user();
-        $token = $user->createToken('Authentiucation Token')->accessToken;
+        $token = $user->createToken('Authentication Token')->accessToken;
+        // dd(Auth::user());
 
-        return response([
-            'message' => 'Authenticated',
-            'user' => $user,
-            'token_type' => 'Bearer',
-            'access_token' => $token
-        ]);
+        // dd(Auth::guard('karyawan')->check());
+        // dd($user->active);
+        if ($user->status) {
+            return redirect('home')->with(['user' => $user, 'token' => $token]);
+        } else {
+            Session::flash('error', 'Akun Anda Belum diverifikasi. Silahkan cek emai Anda.');
+            return view('/customer/loginCust');
+        }
+        // if (Auth::check()) {
+        //     // dd(Auth::check());
+        //     return redirect('home')->with(['user' => $user, 'token' => $token]);
+        // } else {
+        //     // Jika tidak, lakukan sesuatu yang sesuai, seperti menampilkan pesan kesalahan
+        //     Session::flash('error', 'Autentikasi gagal.');
+        //     return view('/customer/loginCust');
+        // }
     }
+
+
 
     /**
      * Store a newly created resource in storage.

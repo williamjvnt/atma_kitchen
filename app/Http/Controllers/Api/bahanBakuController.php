@@ -57,10 +57,11 @@ class bahanBakuController extends Controller
         try {
             $nama_bahan_baku = $request->input('nama_bahan_baku');
             if ($nama_bahan_baku !== null) {
-                $bahan_baku = bahan_baku::where('nama_bahan_baku', 'like', '%' . $nama_bahan_baku . '%')->get();
-                if ($bahan_baku->isNotEmpty()) {
+
+                $bahan = bahan_baku::where('nama_bahan_baku', 'like', '%' . $nama_bahan_baku . '%')->get();
+                if ($bahan->isNotEmpty()) {
                     // dd($bahan_baku);
-                    return view('admin.manageBahanbaku', ['bahan_baku' => $bahan_baku]);
+                    return view('admin.manageBahanbaku', ['bahan' => $bahan]);
                 } else {
                     return view('admin.manageBahanbaku')->with('error', 'Bahan baku Not Found');
                 }
