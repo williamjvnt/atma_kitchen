@@ -8,6 +8,8 @@ Route::get('/', function () {
     return view('/admin/navbarAdminDashboard');
 });
 
-Route::post('/send-change-link', [ChangePassCustController::class, 'sendEmailCust']);
+Route::post('/MailSend', [ChangePassCustController::class, 'sendEmailCust']);
 
-Route::post('/search', [searchController::class, 'search']);
+Route::post('/cariDataCustomer', [searchController::class, 'search']);
+
+Route::get('/showHistoryPesanan', [HistoryPesananController::class], 'show');
