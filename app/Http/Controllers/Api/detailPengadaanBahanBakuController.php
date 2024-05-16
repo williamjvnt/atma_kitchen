@@ -69,7 +69,7 @@ class detailPengadaanBahanBakuController extends Controller
             DB::commit();
             return redirect()->route('managePengadaan');
         } catch (\Exception $e) {
-            dd($e);
+            // dd($e);
             DB::rollback();
             return redirect()->route('pengadaan.add')->withErrors($validate)->withInput();
         }
@@ -181,5 +181,16 @@ class detailPengadaanBahanBakuController extends Controller
      */
     public function destroy(string $id)
     {
+
+        $pengadaan = pengadaan_bahan_baku::find($id);
+        $detail_pengadaan = detail_pengadaan::where('id_pengadaan', $id)->first();
+        $bahan = bahan_baku::find($detail_pengadaan['id_bahan_baku']);
+        $bahan->stok_bahan_baku -= $detail_pengadaan['jumlah_detail_pengadaan'];
+        $bahan->save();
+        // dd($bahan->stok_bahan_baku);
+
+        if ($pengadaan->delete()) {
+            return redirect()->route('managePengadaan');
+        }
     }
 }

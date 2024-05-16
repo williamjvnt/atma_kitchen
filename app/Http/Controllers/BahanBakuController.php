@@ -26,4 +26,5 @@ class BahanBakuController extends Controller
 
         return view('admin.editBahanbaku', compact('bahan'));
     }
+
 }

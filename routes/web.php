@@ -46,6 +46,10 @@ Route::get('register', [CustomerController::class, 'register'])->name('register'
 Route::resource('loginEmployee', App\Http\Controllers\KaryawanController::class);
 Route::post('dashboardEmployee', [KaryawanController::class, 'actionLoginEmployee'])->name('dashboardEmployee');
 
+Route::get('dashboardOwner', function () {
+    return view('/Owner/navbarOwnerDashboard');
+})->name('dashboardOwner');
+
 //admin
 
 Route::get('dashboardAdmin', function () {

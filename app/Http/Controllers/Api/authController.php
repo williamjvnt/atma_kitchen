@@ -40,7 +40,7 @@ class authController extends Controller
         ]);
 
         if ($validate->fails()) {
-            dd($validate->errors());
+            // dd($validate->errors());
             return redirect('/register')->withErrors($validate)->withInput();
         }
 

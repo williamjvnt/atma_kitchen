@@ -39,7 +39,7 @@ Route::get('/pengadaan', [App\Http\Controllers\Api\pengadaanBahanBakuController:
 Route::post('/pengadaan', [App\Http\Controllers\Api\detailPengadaanBahanBakuController::class, 'store'])->name('pengadaan.store');
 Route::get('/pengadaan', [App\Http\Controllers\Api\detailPengadaanBahanBakuController::class, 'show'])->name('pengadaan.show');
 Route::put('/pengadaan/{id}', [App\Http\Controllers\Api\detailPengadaanBahanBakuController::class, 'update'])->name('pengadaan.update');
-Route::delete('/pengadaan/{id}', [App\Http\Controllers\Api\pengadaanBahanBakuController::class, 'destroy'])->name('pengadaan.destroy');
+Route::delete('/pengadaan/{id}', [App\Http\Controllers\Api\detailPengadaanBahanBakuController::class, 'destroy'])->name('pengadaan.destroy');
 
 Route::get('/PengeluaranLain', [App\Http\Controllers\Api\pengeluaranLainController::class, 'index']);
 Route::post('/PengeluaranLain', [App\Http\Controllers\Api\pengeluaranLainController::class, 'store'])->name('pengeluaranLain.store');

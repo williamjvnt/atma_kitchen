@@ -23,13 +23,15 @@ class KaryawanController extends Controller
         $user = karyawan::where('username', $request->username)->first();
 
         if ($user && $user->password === $request->password) {
-            if ($user->id === 1 || $user->id === 2) {
+            if ($user->id_role === 1 || $user->id_role === 2 || $user->id_role === 10) {
                 Session::put('active_karyawan_id', $user->nama_karyawan);
-                if ($user->id === 1) {
+                if ($user->id_role === 1) {
                     return redirect()->route('dashboardMO');
-                } else {
-
+                } else if ($user->id_role === 2) {
                     return redirect()->route('dashboardAdmin');
+                } else {
+                    // dd('masuk')
+                    return redirect()->route('dashboardOwner');
                 }
             } else {
 
