@@ -79,14 +79,14 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbar">
+            <div class="collapse navbar-collapse" id="navbar" style="place-content: center">
                 <ul class="navbar-nav ms-auto me-5" id="li-nav">
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ route('home')}}">Home Page</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('project') }}">Product</a>
+                        <a class="nav-link" href="{{url('catalog')}}">Catalog</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('about') }}"><i class="fa-solid fa-basket-shopping"></i></a>

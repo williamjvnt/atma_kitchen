@@ -16,6 +16,8 @@ class produk extends Model
         'harga_produk',
         'satuan_produk',
         'stok_produk',
+        'kuota',
+        'gambar_produk',
         'id_kategori',
         'id_penitip',
     ];

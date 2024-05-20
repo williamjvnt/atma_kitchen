@@ -41,8 +41,8 @@
             </div>
 
             @endif
-            
-            <form class="form" method="post" action="{{route('loginCust')}}">
+
+            <form class="form" method="post" action="{{ route('loginCust') }}">
                 @csrf
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" name="username" placeholder="username" required>

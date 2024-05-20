@@ -38,16 +38,35 @@ class produkController extends Controller
             'nama_produk' => 'required|max:60',
             'harga_produk' => 'required',
             'satuan_produk' => 'required',
-            'stok_produk' => 'required',
+            'gambar_produk' => 'required',
             'id_kategori' => 'required',
             'id_penitip' => 'nullable',
             //'type' => 'required|in:Free,Paid',
         ]);
 
-        if ($validate->fails()) {
-            return redirect()->route('produk.add')->withErrors($validate)->withInput();
+        if ($request->hasFile('gambar_produk')) {
+            $image = $storeData['gambar_produk'];
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/public/images');
+            $image->move($destinationPath, $image_name);
+            $imagePath = '/public/images/' . $image_name;
+            $storeData['gambar_produk'] = $imagePath;
         }
+        if ($storeData['stok_produk'] === null || $storeData['stok_produk'] === "") {
+            $storeData['stok_produk'] = 0;
+        }
+        if (!isset($storeData['kuota'])) {
+            $storeData['kuota'] = 0;
+            produk::create($storeData);
+            return redirect()->route('manageTitipan');
+        }
+
+        // dd($storeData);
+        // if ($validate->fails()) {
+        //     return redirect()->route('produk.add')->withErrors($validate)->withInput();
+        // }
         // dd($storeData['harga_produk']);
+
         produk::create($storeData);
         return redirect()->route('manageProduk');
     }
@@ -94,18 +113,55 @@ class produkController extends Controller
             'nama_produk' => 'required|max:60',
             'harga_produk' => 'required',
             'satuan_produk' => 'required',
-            'stok_produk' => 'required',
+
+            'gambar_produk' => 'required',
             'id_kategori' => 'required',
             'id_penitip' => 'nullable',
         ]);
         //dd($updateData);
+        // dd('masuk');
+        if ($updateData['stok_produk'] === null || $updateData['stok_produk'] === "") {
+            $updateData['stok_produk'] = 0;
+        }
+        if (!isset($updateData['kuota'])) {
+            if ($request->hasFile('gambar_produk')) {
+                $image = $updateData['gambar_produk'];
+                $image_name = time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('/public/images');
+                $image->move($destinationPath, $image_name);
+                $imagePath = '/public/images/' . $image_name;
+                $updateData['gambar_produk'] = $imagePath;
+            }
+            $updateData['kuota'] = 0;
+            $produk->nama_produk = $updateData['nama_produk'];
+            $produk->harga_produk = $updateData['harga_produk'];
+            $produk->satuan_produk = $updateData['satuan_produk'];
+            $produk->kuota = $updateData['kuota'];
+            $produk->gambar_produk = $updateData['gambar_produk'];
+            $produk->stok_produk = $updateData['stok_produk'];
+            $produk->id_kategori = $updateData['id_kategori'];
+            $produk->id_penitip = $updateData['id_penitip'];
+            $produk->save();
+            return redirect()->route('manageTitipan');
+        }
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
+        }
+
+        if ($request->hasFile('gambar_produk')) {
+            $image = $updateData['gambar_produk'];
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/public/images');
+            $image->move($destinationPath, $image_name);
+            $imagePath = '/public/images/' . $image_name;
+            $updateData['gambar_produk'] = $imagePath;
         }
 
         $produk->nama_produk = $updateData['nama_produk'];
         $produk->harga_produk = $updateData['harga_produk'];
         $produk->satuan_produk = $updateData['satuan_produk'];
+        $produk->kuota = $updateData['kuota'];
+        $produk->gambar_produk = $updateData['gambar_produk'];
         $produk->stok_produk = $updateData['stok_produk'];
         $produk->id_kategori = $updateData['id_kategori'];
         $produk->id_penitip = $updateData['id_penitip'];

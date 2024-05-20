@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/register', [App\Http\Controllers\Api\authController::class, 'register']);
-Route::post('/login', [App\Http\Controllers\Api\authController::class, 'login'])->name('loginCust');
 Route::post('/register', [App\Http\Controllers\Api\authController::class, 'register'])->name('registerCust');
 
 

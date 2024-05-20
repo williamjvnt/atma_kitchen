@@ -26,21 +26,28 @@
                             <table class="table table-hover text-no-wrap">
                                 <thead>
                                     <tr>
+                                        <th class="text-center">Gambar Produk</th>
                                         <th class="text-center">Nama Produk</th>
                                         <th class="text-center">Harga Produk</th>
                                         <th class="text-center">Satuan</th>
                                         <th class="text-center">Stok</th>
+                                        <th class="text-center">Kuota</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @isset($produk)
                                     @forelse($produk as $item)
+                                    @if($item->id_penitip == null)
                                     <tr>
+                                        <td class="text-center align-middle">
+                                            <img src="{{asset($item->gambar_produk) }}" class="mx-auto d-block" style="width:150px ;height:220px" alt="">
+                                        </td>
                                         <td class="text-center align-middle">{{ $item->nama_produk }}</td>
                                         <td class="text-center align-middle">Rp. {{ $item->harga_produk }}</td>
                                         <td class="text-center align-middle">{{ $item->satuan_produk }}</td>
                                         <td class="text-center align-middle">{{ $item->stok_produk }}</td>
+                                        <td class="text-center align-middle">{{$item->kuota}}</td>
                                         <td class="text-center align-middle">
                                             <form action="{{ route('produk.destroy', $item->id) }}" method="POST">
                                                 <a href="{{ route('produk.edit', $item->id) }}" class="btn btn-sm btn-primary">EDIT</a>
@@ -71,6 +78,7 @@
 
                                         </td>
                                     </tr>
+                                    @endif
                                     @empty
                                     <tr>
                                         <td colspan="5" class="text-center">

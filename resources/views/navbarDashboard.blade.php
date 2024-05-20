@@ -87,10 +87,10 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('actionLogout')}}">Product</a>
+                        <a class="nav-link" href="{{ url('catalog') }}">Catalog</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('about') }}"><i class="fa-solid fa-basket-shopping"></i></a>
+                        <a class="nav-link" href="{{ url('login') }} "><i class="fa-solid fa-basket-shopping"></i></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('login') }}">Login</a>
@@ -105,6 +105,19 @@
             </div>
         </div>
     </nav>
+    <!-- <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toast">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="..." class="rounded me-2" alt="...">
+                <strong class="me-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+        </div>
+    </div> -->
     <!--navbar-->
     <div class="content-wrapper">
         @yield('content')
@@ -162,5 +175,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
 </body>
+<script>
+    function showLoginToast() {
+        var toastElement = document.getElementById('toast');
+        var toast = new bootstrap.Toast(toastElement);
+
+        // Tampilkan toast
+        toast.show();
+
+        // Tunggu beberapa detik sebelum redirect
+        setTimeout(function() {
+            window.location.href = "{{ url('login') }}";
+        }, 1000); // 3 detik
+
+        // Cegah link default
+        return false;
+    }
+</script>
 
 </html>

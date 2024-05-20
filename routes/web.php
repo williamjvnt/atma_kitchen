@@ -13,21 +13,30 @@ use App\Http\Controllers\ResepProdukController;
 use App\Models\pengeluaran_lain;
 use App\Http\Controllers\CustomerController;
 use App\Models\customer;
+use App\Models\produk;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\catalogController;
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/', function () {
-//         return view('customer/homePage');
-//     })->name('home');
-// });
+Route::get('/', function () {
+    return view('customer/homePage');
+})->name('home');
+
+Route::post('/action', [App\Http\Controllers\CustomerController::class, 'login'])->name('loginCust');
+
 
 Route::get('/', [CustomerController::class, 'loginSuccess'])->name('login');
+
 Route::get('home', function () {
-    return view('customer/homePageCustomer');
-})->name('home');
+    $produk = Produk::all();
+    // dd(Auth::check());
+    // dd(Auth::check());
+    return view('customer.homePageCustomer', compact('produk'));
+})->name('home')->middleware('auth');
+
 Route::get('register/verify/{verify_key}', [App\Http\Controllers\Api\authController::class, 'verify'])->name('verify');
-Route::get('logout', [CustomerController::class, 'actionLogout'])->name('actionLogout')->middleware('auth');
+Route::get('logout', [CustomerController::class, 'actionLogout'])->name('actionLogout');
 // route::get('/', [CustomerController::class, 'login'])->name('login');
 // Route::get('/login', function () {
 //     return view('customer/loginCust');
@@ -39,6 +48,8 @@ Route::get('logout', [CustomerController::class, 'actionLogout'])->name('actionL
 // })->name('logout');
 //customer
 Route::resource('login', App\Http\Controllers\CustomerController::class);
+Route::resource('catalog', App\Http\Controllers\catalogController::class);
+// Route::get('catalogCustomer', [catalogController::class, 'indexCustomer'])->name('indexCustomer');
 Route::get('register', [CustomerController::class, 'register'])->name('register');
 // Route::get('HomePage', [CustomerController::class, 'loginSuccess'])->name('homePage');
 
@@ -59,6 +70,10 @@ Route::get('dashboardAdmin', function () {
 route::get('Admin/manageProduk', [ProdukController::class, 'index'])->name('manageProduk');
 Route::get('produk/create', [ProdukController::class, 'create'])->name('produk.add');
 Route::get('produk/edit/{id}', [ProdukController::class, 'edit'])->name('produk.edit');
+
+route::get('Admin/manageTitipan', [ProdukController::class, 'titipan'])->name('manageTitipan');
+Route::get('titipan/create', [ProdukController::class, 'createTitipan'])->name('titipan.add');
+Route::get('titipan/edit/{id}', [ProdukController::class, 'editTitipan'])->name('titipan.edit');
 
 route::get('Admin/managehampers', [hampersController::class, 'index'])->name('manageHampers');
 Route::get('hampers/create', [hampersController::class, 'create'])->name('hampers.add');

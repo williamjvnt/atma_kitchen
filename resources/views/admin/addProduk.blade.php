@@ -19,7 +19,18 @@
                     <div class="card-body">
                         <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <div class="form-row">
+                            <div class="form-row mb-3">
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-bold">Gambar Produk</label>
+                                    <input type="file" class="form-control @error('gambar_produk') is-invalid @enderror" name="gambar_produk" value="{{ old('gambar_produk') }}" required>
+                                    @error('gambar_produk')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-row mb-3">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Nama Produk</label>
                                     <input type="text" class="form-control @error('nama_produk') is-invalid @enderror" name="nama_produk" value="{{ old('nama_produk') }}" placeholder="Masukkan Nama Produk" required>
@@ -30,7 +41,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-row">
+                            <div class="form-row mb-3">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Harga Produk</label>
                                     <input type="text" class="form-control @error('harga_produk') is-invalid @enderror" name="harga_produk" value="{{ old('harga_produk') }}" placeholder="Masukkan Harga Produk" required>
@@ -41,7 +52,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-row">
+                            <div class="form-row mb-3">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Satuan Produk</label>
                                     <input type="text" class="form-control @error('satuan_produk') is-invalid @enderror" name="satuan_produk" value="{{ old('satuan_produk') }}" placeholder="Masukkan satuan Produk" required>
@@ -52,10 +63,10 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-row">
+                            <div class="form-row mb-3">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Stok Produk</label>
-                                    <input type="number" class="form-control @error('stok_produk') is-invalid @enderror" name="stok_produk" value="{{ old('stok_produk') }}" placeholder="Masukkan Harga Produk" required>
+                                    <input type="number" class="form-control @error('stok_produk') is-invalid @enderror" name="stok_produk" value="{{ old('stok_produk') }}" placeholder="Masukkan Harga Produk">
                                     @error('stok_produk')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -63,7 +74,18 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-row">
+                            <div class="form-row mb-3">
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-bold">Kuota</label>
+                                    <input type="number" class="form-control @error('kuota') is-invalid @enderror" name="kuota" value="{{ old('kuota') }}" placeholder="Masukkan Harga Produk" required>
+                                    @error('kuota')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-row mb-3">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Kategori</label>
                                     <select class="form-control @error('id') is-invalid @enderror" name="id_kategori" required>
@@ -80,28 +102,8 @@
                                     @enderror
                                 </div>
                             </div>
-
-                            <div class="form-row pb-3">
-                                <div class="form-group col-md-12">
-                                    <label class="font-weight-bold">penitip</label>
-                                    <select class="form-control @error('id') is-invalid @enderror" name="id_penitip">
-                                        <option value="">Pilih penitip</option>
-
-                                        @foreach($penitip as $p)
-                                        <option value="{{ $p->id }}">{{ $p->nama_penitip}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('id_penitip')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
                             <button type="submit" class="btn btn-md " style="background-color: #813C3F; border-color:#813C3F; color:white">SIMPAN</button>
-
                         </form>
-
                     </div>
                     <!-- /.card-body -->
                 </div>

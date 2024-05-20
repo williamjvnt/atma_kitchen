@@ -23,6 +23,12 @@
                         <form action="{{ route('hampers.update', $hampers->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-bold">Gambar Hampers</label>
+                                    <input type="file" class="form-control" name="gambar_hampers" value="{{ old('gambar_hampers') }}" required>
+                                </div>
+                            </div>
                             <div class="form-row pb-3">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Nama Hampers</label>

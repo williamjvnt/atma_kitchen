@@ -14,6 +14,7 @@ class hampers extends Model
     protected $fillable = [
         'nama_hampers',
         'harga_hampers',
+        'gambar_hampers',
         'id_bahan_baku',
     ];
 }

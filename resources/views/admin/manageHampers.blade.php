@@ -26,8 +26,10 @@
                             <table class="table table-hover text-no-wrap">
                                 <thead>
                                     <tr>
+                                        <th class="text-center">Gambar Hampers</th>
                                         <th class="text-center">Nama Hampers</th>
                                         <th class="text-center">Harga Hampers</th>
+                                        <th class="text-center">Detail Hampers</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
@@ -35,8 +37,18 @@
                                     @isset($hampers)
                                     @forelse($hampers as $item)
                                     <tr>
+                                        <td class="text-center align-middle">
+                                            <img src="{{asset($item->gambar_hampers) }}" class="mx-auto d-block" style="width:150px ;height:220px" alt="">
+                                        </td>
                                         <td class="text-center align-middle">{{ $item->nama_hampers }}</td>
                                         <td class="text-center align-middle">Rp. {{ $item->harga_hampers }}</td>
+                                        <td class="text-center align-middle">
+                                            @foreach($detail as $d)
+                                            <p style="color: #000000">
+                                                {{$d->id_hampers == $item->id ? $d->produk->nama_produk : ''}}
+                                            </p>
+                                            @endforeach
+                                        </td>
                                         <td class="text-center align-middle">
                                             <form action="{{ route('hampers.destroy', $item->id) }}" method="POST">
                                                 <a href="{{ route('hampers.edit', $item->id) }}" class="btn btn-sm btn-primary">EDIT</a>

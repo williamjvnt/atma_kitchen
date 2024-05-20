@@ -11,8 +11,17 @@ class detail_hampers extends Model
     public $timestamps = false;
     protected $table = 'detail_hampers';
     protected $fillable = [
-        'jumlah_produk',
         'id_hampers',
         'id_produk',
     ];
+
+    public function hampers()
+    {
+        return $this->belongsTo(hampers::class, 'id_hampers');
+    }
+
+    public function produk()
+    {
+        return $this->belongsTo(produk::class, 'id_produk');
+    }
 }

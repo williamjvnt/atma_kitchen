@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-class customer extends Authenticatable
+class user extends model
 {
     use HasFactory, Notifiable, HasApiTokens;
     public $timestamps = false;

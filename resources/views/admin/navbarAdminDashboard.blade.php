@@ -89,6 +89,8 @@
             <div class="list-group list-group-flush">
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('manageProduk')}}"><i class="fa-brands fa-product-hunt"></i>
                     <span style="margin-left: 10px">Manage Data Produk</span></a>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('manageTitipan')}}"><i class="fa-brands fa-product-hunt"></i>
+                    <span style="margin-left: 10px">Manage Data Titipan</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('manageResep')}}"><i class="fa-solid fa-file-invoice fa-lg"></i></fa-solid>
                     <span style="margin-left: 10px">Manage Resep</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('manageBahanbaku')}}"><i class="fa-solid fa-bars-progress"></i>

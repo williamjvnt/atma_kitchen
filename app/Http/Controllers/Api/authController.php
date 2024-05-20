@@ -14,6 +14,7 @@ use Illuminate\Support\str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 
+
 class authController extends Controller
 {
     /**
@@ -92,19 +93,23 @@ class authController extends Controller
             Session::flash('error', 'Username atau Password salah');
             return view('/customer/loginCust');
         }
-
+        session()->regenerate();
         // Pengguna berhasil diotentikasi
+        /** @var \App\Models\customer $user **/
         $user = Auth::user();
         $token = $user->createToken('Authentication Token')->accessToken;
+        // dd($user);
         // dd(Auth::user());
 
-        // dd(Auth::guard('karyawan')->check());
+
+        // dd(Auth::guard('web')->check());
         // dd($user->active);
-        if ($user->status) {
-            return redirect('home')->with(['user' => $user, 'token' => $token]);
+        if ($user->status && Auth::check()) {
+            return redirect()->intended('home')->with(['user' => $user, 'access_token' => $token, 'token_type' => 'Bearer']);
         } else {
-            Session::flash('error', 'Akun Anda Belum diverifikasi. Silahkan cek emai Anda.');
-            return view('/customer/loginCust');
+            // Jika pengguna belum diverifikasi
+            Session::flash('error', 'Akun Anda Belum diverifikasi. Silahkan cek email Anda.');
+            return view('customer.loginCust');
         }
         // if (Auth::check()) {
         //     // dd(Auth::check());

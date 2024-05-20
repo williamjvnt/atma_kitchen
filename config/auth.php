@@ -72,12 +72,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\customer::class,
+            'model' => env('Auth_MODEL', App\Models\customer::class),
         ],
-        'karyawans' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\karyawan::class,
-        ],
+        // 'karyawans' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\karyawan::class,
+        // ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

@@ -25,6 +25,12 @@
                             @method('PUT')
                             <div class="form-row">
                                 <div class="form-group col-md-12">
+                                    <label class="font-weight-bold">Gambar Produk</label>
+                                    <input type="file" class="form-control" name="gambar_produk" value="{{ old('gambar_produk') }}" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Nama Produk</label>
                                     <input type="text" class="form-control @error('nama_produk') is-invalid @enderror" name="nama_produk" value="{{ old('class',$produk->nama_produk) }}" placeholder="Masukkan Nama Produk" required>
                                     @error('nama_produk')
@@ -59,8 +65,19 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-bold">Stok Produk</label>
-                                    <input type="number" class="form-control @error('stok_produk') is-invalid @enderror" name="stok_produk" value="{{ old('class',$produk->stok_produk) }}" placeholder="Masukkan Harga Produk" required>
+                                    <input type="number" class="form-control @error('kuota') is-invalid @enderror" name="stok_produk" value="{{ old('class',$produk->stok_produk) }}" placeholder="Masukkan Harga Produk" required>
                                     @error('stok_produk')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-bold">Kuota</label>
+                                    <input type="number" class="form-control @error('kuota') is-invalid @enderror" name="kuota" value="{{ old('class',$produk->kuota) }}" placeholder="Masukkan Harga Produk" required>
+                                    @error('kuota')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

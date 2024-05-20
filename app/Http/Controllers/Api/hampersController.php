@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\hampers;
+use App\Models\detail_hampers;
+use App\Models\produk;
 use Illuminate\Support\Facades\Validator;
 
 class hampersController extends Controller
@@ -33,19 +36,51 @@ class hampersController extends Controller
     public function store(Request $request)
     {
         $storeData = $request->all();
-
         $validate = Validator::make($storeData, [
-            'nama_hampers' => 'required|max:60',
+            'nama_hampers' => 'required|string|max:255',
             'harga_hampers' => 'required',
 
         ]);
 
+        DB::beginTransaction();
+        try {
+
+            if ($request->hasFile('gambar_hampers')) {
+                $image = $storeData['gambar_hampers'];
+                $image_name = time() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('/public/images');
+                $image->move($destinationPath, $image_name);
+                $imagePath = '/public/images/' . $image_name;
+                $storeData['gambar_hampers'] = $imagePath;
+            }
+            $hampers = hampers::create([
+                'nama_hampers' => $storeData['nama_hampers'],
+                'harga_hampers' => $storeData['harga_hampers'],
+                'gambar_hampers' => $storeData['gambar_hampers'],
+                'id_bahan_baku' => 1,
+            ]);
+            // dd('masuk');
+            $produk = $storeData['id_produk'];
+            // dd($produk);
+            foreach ($produk as $id_produk) {
+                detail_hampers::create([
+                    'id_hampers' => $hampers->id,
+                    'id_produk' => $id_produk,
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('manageHampers');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('hampers.add')->withErrors($validate)->withInput();
+        }
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-        $storeData['id_bahan_baku'] = 1;
-        hampers::create($storeData);
-        return redirect()->route('manageHampers');
+        // $storeData['id_bahan_baku'] = 1;
+        // hampers::create($storeData);
+        // return redirect()->route('manageHampers');
     }
 
     /**
@@ -92,10 +127,18 @@ class hampersController extends Controller
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
+        if ($request->hasFile('gambar_hampers')) {
+            $image = $updateData['gambar_hampers'];
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/public/images');
+            $image->move($destinationPath, $image_name);
+            $imagePath = '/public/images/' . $image_name;
+            $updateData['gambar_hampers'] = $imagePath;
+        }
 
         $hampers->nama_hampers = $updateData['nama_hampers'];
         $hampers->harga_hampers = $updateData['harga_hampers'];
-
+        $hampers->gambar_hampers = $updateData['gambar_hampers'];
         if ($hampers->save()) {
             return redirect()->route('manageHampers');
         }
