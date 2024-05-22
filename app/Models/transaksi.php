@@ -24,4 +24,9 @@ class transaksi extends Model
         'jumlah_tip',
         'id_customer',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(customer::class, 'id_customer');
+    }
 }

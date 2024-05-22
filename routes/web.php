@@ -14,6 +14,7 @@ use App\Models\pengeluaran_lain;
 use App\Http\Controllers\CustomerController;
 use App\Models\customer;
 use App\Models\produk;
+use App\Models\transaksi;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -32,8 +33,92 @@ Route::get('home', function () {
     $produk = Produk::all();
     // dd(Auth::check());
     // dd(Auth::check());
-    return view('customer.homePageCustomer', compact('produk'));
+    $klontong = transaksi::where('id_customer', Auth::user()->id)
+        ->where(function ($query) {
+            $query->where('status_transaksi', 'di dalam keranjang')
+                ->orWhere('status_transaksi', 'di dalam keranjang(pre-order)')
+                ->orWhere('status_transaksi', 'proses pembayaran');
+        })
+        ->get();    // dd($klontong->isEmpty());
+    return view('customer.homePageCustomer', compact('produk', 'klontong'));
 })->name('home')->middleware('auth');
+
+Route::get('keranjangKosong', [catalogController::class, 'indexCustomer'])->name('klontongKosong')->middleware('auth');
+Route::get('keranjang', [catalogController::class, 'klontong'])->name('klontong')->middleware('auth');
+
+route::get('uploadBuktiPreOrder', function () {
+    $klontong = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang')->get();
+
+    // dd($klontong[0]->jumlah_transaksi_produk);
+    $tmp = 0;
+    // dd($tmp);
+    if ($klontong[0]->customer->poin_customer > 0) {
+        $tmp = $klontong[0]->customer->poin_customer * 100;
+    }
+    $temp = $klontong[0]->jumlah_transaksi_produk - $tmp;
+    $poin = 0;
+
+    while ($temp >= 1000000) {
+        $poin += 200;
+        $temp -= 1000000;
+    }
+    while ($temp >= 500000) {
+        $poin += 75;
+        $temp -= 500000;
+    }
+    // dd($temp);
+    while ($temp >= 100000) {
+        $poin += 15;
+
+        $temp -= 100000;
+        // dd($temp);
+    }
+    // dd($poin);
+    while ($temp >= 10000) {
+        $poin += 1;
+        $temp -= 10000;
+    }
+
+    // dd($poin);
+    $temp = $klontong[0]->jumlah_transaksi_produk - $tmp;
+    return view('customer.uploadBuktiPO', compact('klontong', 'poin', 'temp'));
+})->middleware('auth');
+
+route::get('uploadBukti', function () {
+    $klontong = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang')->get();
+
+    // dd($klontong[0]->jumlah_transaksi_produk);
+    $tmp = 0;
+    // dd($tmp);
+    if ($klontong[0]->customer->poin_customer > 0) {
+        $tmp = $klontong[0]->customer->poin_customer * 100;
+    }
+    $temp = $klontong[0]->jumlah_transaksi_produk - $tmp;
+    $poin = 0;
+
+    while ($temp >= 1000000) {
+        $poin += 200;
+        $temp -= 1000000;
+    }
+    while ($temp >= 500000) {
+        $poin += 75;
+        $temp -= 500000;
+    }
+    // dd($temp);
+    while ($temp >= 100000) {
+        $poin += 15;
+
+        $temp -= 100000;
+        // dd($temp);
+    }
+    // dd($poin);
+    while ($temp >= 10000) {
+        $poin += 1;
+        $temp -= 10000;
+    }
+    $temp = $klontong[0]->jumlah_transaksi_produk - $tmp;
+    return view('customer.uploadBukti', compact('klontong', 'poin', 'temp'));
+})->middleware('auth');
 
 Route::get('register/verify/{verify_key}', [App\Http\Controllers\Api\authController::class, 'verify'])->name('verify');
 Route::get('logout', [CustomerController::class, 'actionLogout'])->name('actionLogout');

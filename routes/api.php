@@ -8,6 +8,10 @@ Route::post('/register', [App\Http\Controllers\Api\authController::class, 'regis
 Route::post('/register', [App\Http\Controllers\Api\authController::class, 'register'])->name('registerCust');
 
 
+route::post('/transaksi', [App\Http\Controllers\Api\transaksiController::class, 'store'])->name('transaksi.store');
+Route::put('transaksi/{id}', [App\Http\Controllers\Api\transaksiController::class, 'update'])->name('transaksi.update');
+Route::delete('transaksi/delete', [App\Http\Controllers\Api\transaksiController::class, 'destroy'])->name('transaksi.destroy');
+
 Route::get('/produk', [App\Http\Controllers\Api\produkController::class, 'index']);
 Route::post('/produk', [App\Http\Controllers\Api\ProdukController::class, 'store'])->name('produk.store');
 Route::get('/produk', [App\Http\Controllers\Api\produkController::class, 'show'])->name('produk.show');

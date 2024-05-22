@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\customer;
 use Illuminate\Support\Facades\Auth;
 use App\Models\produk;
+use App\Models\transaksi;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -35,6 +36,8 @@ class CustomerController extends Controller
         $produk = Produk::all();
 
         if (Auth::check()) {
+            $klontong = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang')->get();
+
             return redirect("home");
         } else {
             return view("homePage", compact('produk'));

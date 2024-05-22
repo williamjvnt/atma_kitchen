@@ -202,9 +202,18 @@
                 <div class="col-md-3" id="best">
                     <div class="card mb-3" style="width: 100%;">
                         <img src="{{$item->gambar_hampers}}" class="card-img-top" style="width:100%; height:220px" alt="...">
-                        <div class="card-body">
+                        <div class="card-body" style="height: fit-content">
                             <b class="card-title" style="color: #FFC436">{{$item->nama_hampers}}</b>
                             <p style="color: #4b2713">Rp. {{$item->harga_hampers}}</p>
+                            <p style="margin-bottom: 2px">Deskripsi Hampers:</p>
+                            <div>
+                                @foreach($detail as $i)
+                                @if($i->id_hampers == $item->id)
+                                <p style="font-size: 12px; padding-bottom: 2px; margin-bottom: 0">- {{$i->produk->nama_produk}}</p>
+                                @endif
+                                @endforeach
+
+                            </div>
                         </div>
                     </div>
                 </div>
