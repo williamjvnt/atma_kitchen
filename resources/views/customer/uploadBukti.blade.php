@@ -77,13 +77,24 @@
                         @enderror
                     </div>
                 </div>
+                <input type="range" id="rangeInput" name="rangeInput" min="0" max="100">
+                <span id="rangeValue">0</span>
+
                 <div class="form-floating mb-3 d-grid">
-                    <button type="submit" class="btn btn-primary col-6 mb-3 mt-4 mx-auto" style="background-color: #813C3F; border-color:#813C3F;">Login</button>
+                    <button type="submit" class="btn btn-primary col-6 mb-3 mt-4 mx-auto" style="background-color: #813C3F; border-color:#813C3F;">Kirim</button>
                 </div>
             </form>
         </main>
     </div>
 
 </body>
+<script>
+    const rangeInput = document.getElementById('rangeInput');
+    const rangeValue = document.getElementById('rangeValue');
+
+    rangeInput.addEventListener('input', () => {
+        rangeValue.textContent = rangeInput.value;
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <html>

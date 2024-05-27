@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\customer;
 use App\Models\produk;
 use App\Models\hampers;
 use App\Models\detail_hampers;
@@ -53,11 +53,22 @@ class catalogController extends Controller
     //     $hampers = hampers::all();
     //     return view('customer.catalogCustomer', compact('produk', 'hampers'));
 
+    public function pay(){
+        $stok = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang')->first();
+        $po = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang(pre-order)')->first();
+        $poin = customer::where('id', Auth::user()->id)->first();
+
+        return view('customer.insert', compact('stok', 'po', 'poin'));
+
+    }
+
+
     public function klontong()
     {
         $hasil = collect();
         $hasil2 = collect();
-        $hasil3 = new Collection();
+        $hasil3 = collect();
+        $count = 0;
         $produk = produk::all();
         $hampers = hampers::all();
         $detail = detail_hampers::all();
@@ -69,37 +80,51 @@ class catalogController extends Controller
             })
             ->get();
 
-        $klontongB = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang')->get();
+
+        //ready stok
+        $klontongB = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang')->first();
         // dd(!$klontongB->isEmpty());
-        if (!$klontongB->isEmpty()) {
-            $hasil = detail_transaksi::where('id_transaksi', $klontongB[0]->id)->get();
+        // dd($klontongB);
+
+        if ($klontongB !== null) {
+            $hasil = detail_transaksi::where('id_transaksi', $klontongB->id)->get();
             // dd($hasil);
             // dd($klontongB[0]->id);
         }
 
 
-        $klontongP = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang(pre-order)')->get();
+        //preorder
+        $klontongP = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang(pre-order)')->first();
         // dd($klontongP);
-        if (!$klontongP->isEmpty()) {
-            $hasil2 = detail_transaksi::where('id_transaksi', $klontongP[0]->id)->get();
+        if ($klontongP !== null) {
+            $hasil2 = detail_transaksi::where('id_transaksi', $klontongP->id)->get();
         }
-        $klontongX = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'proses pembayaran')->get();
-        $count = count($klontongX);
-        $i = 0;
+
+        //proses pembayaran
+        $klontongX = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'proses pembayaran')->first();
+
         // dd($count);
-        if (!$klontongX->isEmpty()) {
-            while ($count > $i) {
-                $hasil3[$i] = $klontongX[$i];
-                // $temp = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'proses pembayaran')->get();
-                // $hasil3 = $hasil3->merge($temp);
-                $i++;
-            }
+        if ($klontongX !== null) {
+            $hasil3 = detail_transaksi::where('id_transaksi', $klontongX->id)->get();
+
+            // $count = count($hasil3);
+            // // dd($hasil);
+            // $i = 0;
+            // while ($count > $i) {
+            //     $hasil3[$i] = $klontongX[$i];
+
+            //     $i++;
+            // }
+
+            // $temp = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'proses pembayaran')->get();
+            // $hasil3 = $hasil3->merge($temp);
             // foreach ($klontongX as $transaksi) {
             //     $temp = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'proses pembayaran')->get();
             //     $hasil3 = $hasil3->merge($temp); // Menggabungkan hasil
             // }
         }
         // dd($hasil3);
-        return view('customer.klontong', compact('hasil3', 'hasil', 'hasil2', 'produk', 'hampers', 'detail', 'klontong', 'count'));
+        // dd($klontongB->jumlah_transaksi_produk);
+        return view('customer.klontong', compact('hasil3', 'hasil2', 'hasil', 'produk', 'hampers', 'detail', 'klontong', 'count', 'klontongB', 'klontongP'));
     }
 }

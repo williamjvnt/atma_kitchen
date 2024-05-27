@@ -183,7 +183,16 @@
 
     <main>
         <!-- toast -->
-
+        @if(Session::has('error'))
+        <div id="myToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        @endif
         <ul class="nav justify-content-center " id="nav">
 
             <li class="nav-item">
@@ -201,11 +210,24 @@
             <li class="nav-item">
                 <a class="nav-link" onclick="showSection('hampers')">Hampers</a>
             </li>
+            <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>
 
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="..." class="rounded me-2" alt="...">
+                        <strong class="me-auto">Bootstrap</strong>
+                        <small>11 mins ago</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div>
+            </div>
         </ul>
 
         <div id="cake" class="content-section">
-
             <h2>Catalog Cake</h2>
             <div class="row">
                 @isset($produk)
@@ -488,6 +510,7 @@
     }
 
 
+
     document.querySelectorAll('.preorder').forEach(button => {
         button.addEventListener('click', (event) => {
             const produkId = button.getAttribute('data-produk-id');
@@ -551,7 +574,6 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         let activeSection = document.querySelector('.content-section.active');
         if (!activeSection) {
-
             showSection('cake');
         }
     });

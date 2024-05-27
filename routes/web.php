@@ -15,6 +15,7 @@ use App\Http\Controllers\CustomerController;
 use App\Models\customer;
 use App\Models\produk;
 use App\Models\transaksi;
+use App\Models\detail_transaksi;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -47,8 +48,14 @@ Route::get('keranjangKosong', [catalogController::class, 'indexCustomer'])->name
 Route::get('keranjang', [catalogController::class, 'klontong'])->name('klontong')->middleware('auth');
 
 route::get('uploadBuktiPreOrder', function () {
-    $klontong = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang')->get();
-
+    $klontong = transaksi::where('id_customer', Auth::user()->id)->where('status_transaksi', 'di dalam keranjang(pre-order)')->get();
+    // dd($klontong);
+    $detail = detail_transaksi::where('id_transaksi', $klontong[0]->id)->get();
+    foreach ($detail as $key => $value) {
+        if ($value->stok_produk === 0 && $value->kuota == 0) {
+            redirect('klontong');
+        }
+    }
     // dd($klontong[0]->jumlah_transaksi_produk);
     $tmp = 0;
     // dd($tmp);

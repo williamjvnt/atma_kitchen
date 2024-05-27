@@ -69,7 +69,7 @@
                 <div class="form-row mb-3">
                     <div class="form-group col-md-12">
                         <label class="font-weight-bold">Alamat</label>
-                        <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ old('alamat') }}" placeholder="Masukkan Nama Produk" required>
+                        <input type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat" value="{{ old('alamat') }}" placeholder="Masukkan Alamat" required>
                         @error('alamat')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="form-floating mb-3 d-grid">
-                    <button type="submit" class="btn btn-primary col-6 mb-3 mt-4 mx-auto" style="background-color: #813C3F; border-color:#813C3F;">Login</button>
+                    <button type="submit" class="btn btn-primary col-6 mb-3 mt-4 mx-auto" style="background-color: #813C3F; border-color:#813C3F;">Kirim</button>
                 </div>
             </form>
         </main>

@@ -101,6 +101,7 @@
                     <li class="nav-item">
                         <a class="nav-link" id="admin" href="{{ url('loginEmployee') }}">Login As Employee</a>
                     </li>
+
                 </ul>
             </div>
         </div>
@@ -176,6 +177,8 @@
 
 </body>
 <script>
+
+    
     function showLoginToast() {
         var toastElement = document.getElementById('toast');
         var toast = new bootstrap.Toast(toastElement);
