@@ -21,7 +21,7 @@ class KaryawanController extends Controller
     public function actionLoginEmployee(Request $request)
     {
         $user = karyawan::where('username', $request->username)->first();
-
+        // dd($user);
         if ($user && $user->password === $request->password) {
             if ($user->id_role === 1 || $user->id_role === 2 || $user->id_role === 10) {
                 Session::put('active_karyawan_id', $user->nama_karyawan);

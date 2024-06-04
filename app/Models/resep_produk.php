@@ -13,11 +13,10 @@ class resep_produk extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'nama_resep',
-        'id_produk',
     ];
 
-    public function produk()
-    {
-        return $this->belongsTo(Produk::class, 'id_produk');
-    }
+    // public function produk()
+    // {
+    //     return $this->belongsTo(Produk::class, 'id_produk');
+    // }
 }

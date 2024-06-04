@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\bahanBakuController as ApiBahanBakuController;
 use App\Http\Controllers\PengeluaranLainController;
 use App\Http\Controllers\BahanBakuController;
 use App\Http\Controllers\DetailPengadaanController;
@@ -10,8 +11,9 @@ use App\Http\Controllers\penitipController;
 use App\Http\Controllers\hampersController;
 use App\Http\Controllers\PengadaanBahanBakuController;
 use App\Http\Controllers\ResepProdukController;
-use App\Models\pengeluaran_lain;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\CustomerController;
+use App\Models\pengeluaran_lain;
 use App\Models\customer;
 use App\Models\produk;
 use App\Models\transaksi;
@@ -186,7 +188,11 @@ Route::get('dashboardMO', function () {
     return view('/MO/navbarMODashboard');
 })->name('dashboardMO');
 
-route::get('MO/managePengadaanBahanBaku', [DetailPengadaanController::class, 'index'])->name('managePengadaan');
+Route::get('MO/daftarPesanan', [transaksiController::class, 'diterima'])->name('daftarPesanan');
+Route::get('MO/processPesanan', [transaksiController::class, 'process'])->name('processPesanan');
+Route::Post('MO/accPesanan', [transaksiController::class, 'update'])->name('accPesanan');
+
+Route::get('MO/managePengadaanBahanBaku', [DetailPengadaanController::class, 'index'])->name('managePengadaan');
 Route::get('pengadaan/create', [DetailPengadaanController::class, 'create'])->name('pengadaan.add');
 Route::get('pengadaan/edit/{id}', [DetailPengadaanController::class, 'edit'])->name('pengadaan.edit');
 
@@ -201,3 +207,7 @@ Route::get('PengeluaranLain/edit/{id}', [PengeluaranLainController::class, 'edit
 route::get('MO/manageKaryawan', [KaryawanController::class, 'view'])->name('manageKaryawan');
 Route::get('karyawan/create', [karyawanController::class, 'create'])->name('karyawan.add');
 Route::get('karyawan/edit/{id}', [karyawanController::class, 'edit'])->name('karyawan.edit');
+
+
+//owner
+Route::get('laporan/{active_karyawan_id}', [BahanBakuController::class, 'laporan'])->name('laporan');

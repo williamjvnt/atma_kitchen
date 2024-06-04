@@ -61,3 +61,5 @@ Route::post('/karyawan', [App\Http\Controllers\Api\karyawanController::class, 's
 Route::get('/karyawan', [App\Http\Controllers\Api\karyawanController::class, 'show'])->name('karyawan.show');
 Route::put('/karyawan/{id}', [App\Http\Controllers\Api\karyawanController::class, 'update'])->name('karyawan.update');
 Route::delete('/karyawan/{id}', [App\Http\Controllers\Api\karyawanController::class, 'destroy'])->name('karyawan.destroy');
+
+

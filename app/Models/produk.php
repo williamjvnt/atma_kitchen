@@ -20,5 +20,6 @@ class produk extends Model
         'gambar_produk',
         'id_kategori',
         'id_penitip',
+        'id_resep',
     ];
 }

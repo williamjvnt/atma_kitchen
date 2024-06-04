@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         nav {
@@ -84,7 +86,6 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ route('home')}}">Home Page</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('catalog')}}">Catalog</a>
                     </li>
@@ -92,19 +93,14 @@
                         <!-- id="basket-icon"  -->
                         @if($klontong->isEmpty())
                         <a class="nav-link" href="{{ route('klontongKosong') }}"><i class="fa-solid fa-basket-shopping"></i></a>
-
                         @else
                         <a class="nav-link" href="{{ route('klontong') }}"><i class="fa-solid fa-basket-shopping fa-bounce" style="color: #FFC436"></i></a>
-
                         @endif
                     </li>
-
                     <li class=" nav-item">
                         <a class="nav-link" href="{{ route('actionLogout')}}">Logout</a>
                     </li>
-
                 </ul>
-
             </div>
         </div>
     </nav>
@@ -162,6 +158,7 @@
 
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\bahan_baku;
+use App\Models\detail_pengadaan;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class bahanBakuController extends Controller
 {
@@ -126,7 +128,12 @@ class bahanBakuController extends Controller
                 'data' => null
             ], 404);
         }
+        // $detail = detail_pengadaan::where('id_bahan_baku', $id)->get();
 
+        // foreach ($detail as $item) {
+        //     $item->delete();
+        // }
+        // $detail->delete();
         if ($bahan_baku->delete()) {
             return redirect()->route('manageBahanbaku');
         }

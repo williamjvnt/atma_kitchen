@@ -86,6 +86,12 @@
             <div class="list-group list-group-flush">
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="#"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Manager Gaji</span></a>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{ route('laporan', ['active_karyawan_id' => session('active_karyawan_id')]) }}">
+                    <i class="fas fa-light fa-file-zipper"></i>
+                    <span style="margin-left: 9px">Laporan Stok Bahan Baku</span>
+                </a>
+                <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{route('daftarPesanan')}}"><i class="fas fa-right-from-bracket"></i>
+                    <span style="margin-left: 9px">Laporan Penjualan Produk Per-Bulan</span></a>
                 <a class="list-group-item p-3 custom-bg-color fw-semibold" href="{{url('loginEmployee')}}"><i class="fas fa-right-from-bracket"></i>
                     <span style="margin-left: 9px">Logout</span></a>
             </div>

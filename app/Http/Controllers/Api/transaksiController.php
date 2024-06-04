@@ -15,6 +15,8 @@ use App\Models\hampers;
 use App\Models\detail_hampers;
 use Carbon\Carbon;
 
+use function PHPUnit\Framework\isNull;
+
 class transaksiController extends Controller
 {
     /**
@@ -32,6 +34,7 @@ class transaksiController extends Controller
     {
         $storeData = $request->all();
         $callerId = $request->input('caller_id');
+        // dd($storeData);
         // dd($callerId);
         //1 = preorder produk
         //2 = cepatkan bayar produk
@@ -48,6 +51,7 @@ class transaksiController extends Controller
         if ($callerId == '1') {
             $timestampPengambilan = strtotime($storeData['tanggal_pengambilan']);
             if ($timestampPengambilan < $timestampHariMax) {
+                // dd('masuk');
                 Session::flash('error', 'Pre-Order Tidak Boleh Kurang Dari 2 Hari Sejak Hari Ini');
                 // dd(Session);
                 // dd(Session::get('error'));
@@ -65,13 +69,20 @@ class transaksiController extends Controller
                 // $testing = $storeData['produk_id'];
                 // dd($testing);
                 if ($transaksiExist) {
+                    $detail = detail_transaksi::where('id_produk', $storeData['produk_id'])->where('id_transaksi', $transaksiExist->id)->first();
                     // dd('exist');
-                    $detail = detail_transaksi::create([
-                        'jumlah_produk' => $storeData['jumlah_produk'],
-                        'total_transaksi_produk' => $storeData['jumlah_produk'] * $produk->harga_produk,
-                        'id_produk' => $storeData['produk_id'],
-                        'id_transaksi' => $transaksiExist->id,
-                    ]);
+                    if ($detail !== null) {
+                        $detail->jumlah_produk = $detail->jumlah_produk + $storeData['jumlah_produk'];
+                        $detail->total_transaksi_produk = $detail->jumlah_produk * $produk->harga_produk;
+                        $detail->save();
+                    } else {
+                        $detail = detail_transaksi::create([
+                            'jumlah_produk' => $storeData['jumlah_produk'],
+                            'total_transaksi_produk' => $storeData['jumlah_produk'] * $produk->harga_produk,
+                            'id_produk' => $storeData['produk_id'],
+                            'id_transaksi' => $transaksiExist->id,
+                        ]);
+                    }
 
                     $transaksiExist->jumlah_transaksi_produk = $transaksiExist->jumlah_transaksi_produk + $detail->total_transaksi_produk;
                     $transaksiExist->save();
@@ -88,15 +99,37 @@ class transaksiController extends Controller
                         'tanggal_ambil' => $storeData['tanggal_pengambilan'],
                         'id_customer' => $storeData['id_customer']
                     ]);
-                    $detail = detail_transaksi::create([
-                        'jumlah_produk' => $storeData['jumlah_produk'],
-                        'total_transaksi_produk' => $storeData['jumlah_produk'] * $produk->harga_produk,
-                        'id_produk' => $storeData['produk_id'],
-                        'id_transaksi' => $transaksi->id,
-                    ]);
+                    $temp = detail_transaksi::all();
+                    // dd($temp);
+                    if (!isNull($temp)) {
+                        // dd('masuk');
+                        $detail = detail_transaksi::where('id_produk', $storeData['produk_id'])->where('id_transaksi', $transaksiExist->id)->first();
+                        if ($detail !== null) {
+                            $detail->jumlah_produk += 1;
+                            $detail->total_transaksi_produk = $detail->jumlah_produk * $produk->harga_produk;
+                            $detail->save();
+                        } else {
 
-                    $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
-                    $transaksi->save();
+                            $detail = detail_transaksi::create([
+                                'jumlah_produk' => 1,
+                                'total_transaksi_produk' => $produk->harga_produk,
+                                'id_produk' => $storeData['produk_id'],
+                                'id_transaksi' => $transaksi->id,
+                            ]);
+                            $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
+                            $transaksi->save();
+                        }
+                    } else {
+
+                        $detail = detail_transaksi::create([
+                            'jumlah_produk' => 1,
+                            'total_transaksi_produk' => $produk->harga_produk,
+                            'id_produk' => $storeData['produk_id'],
+                            'id_transaksi' => $transaksi->id,
+                        ]);
+                        $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
+                        $transaksi->save();
+                    }
                     // dd('masuk');
                     DB::commit();
                     return redirect()->to(url('catalog'));
@@ -109,22 +142,43 @@ class transaksiController extends Controller
         } else if ($callerId == '2') {
             DB::beginTransaction();
             try {
+                // dd($storeData);
                 $produk = produk::where('id', $storeData['produk_id'])->first();
                 $transaksiExist = transaksi::where('status_transaksi', 'di dalam keranjang')->first();
-                // dd($transaksiExist->id);
+
+                // dd($transaksiExist);
                 if ($transaksiExist) {
-                    $detail = detail_transaksi::create([
-                        'jumlah_produk' => 1,
-                        'total_transaksi_produk' => $produk->harga_produk,
-                        'id_produk' => $storeData['produk_id'],
-                        'id_transaksi' => $transaksiExist->id,
-                    ]);
-                    $transaksiExist->jumlah_transaksi_produk = $transaksiExist->jumlah_transaksi_produk + $detail->total_transaksi_produk;
-                    $transaksiExist->save();
-                    DB::commit();
+                    $detail = detail_transaksi::where('id_produk', $produk->id)->where('id_transaksi', $transaksiExist->id)->first();
+                    // dd($detail);
+                    if (!is_null($detail)) {
+                        // dd('masuk');
+                        // $detail = detail_transaksi::where('id_produk', $storeData['produk_id'])->where('id_transaksi', $transaksiExist->id)->first();
+                        $detail->jumlah_produk = $detail->jumlah_produk + 1;
+                        $detail->total_transaksi_produk = $detail->jumlah_produk * $produk->harga_produk;
+                        // dd('masuk');
+                        // dd($detail);
+                        $detail->save();
+                        // $transaksiExist->jumlah_transaksi_produk = $transaksiExist->jumlah_transaksi_produk + $detail->total_transaksi_produk;
+                        // $transaksiExist->save();
+                        DB::commit();
+                    } else {
+                        // dd('masuk');
+                        $detail = detail_transaksi::create([
+                            'jumlah_produk' => 1,
+                            'total_transaksi_produk' => $produk->harga_produk,
+                            'id_produk' => $storeData['produk_id'],
+                            'id_transaksi' => $transaksiExist->id,
+                        ]);
+                        $transaksiExist->jumlah_transaksi_produk = $transaksiExist->jumlah_transaksi_produk + $detail->total_transaksi_produk;
+                        $transaksiExist->save();
+                        DB::commit();
+                    }
+                    // dd($detail);
+
 
                     return redirect()->to(url('catalog'));
                 } else {
+
                     // dd($storeData);
                     $transaksi = transaksi::create([
                         // 'jumlah_transaksi_produk' => 
@@ -134,15 +188,37 @@ class transaksiController extends Controller
                         'tanggal_ambil' => $tanggalHariIni,
                         'id_customer' => $storeData['id_customer']
                     ]);
-                    $detail = detail_transaksi::create([
-                        'jumlah_produk' => 1,
-                        'total_transaksi_produk' => $produk->harga_produk,
-                        'id_produk' => $storeData['produk_id'],
-                        'id_transaksi' => $transaksi->id,
-                    ]);
+                    $temp = detail_transaksi::all();
+                    // dd($temp);
+                    if (!isNull($temp)) {
+                        // dd('masuk');
+                        $detail = detail_transaksi::where('id_produk', $storeData['produk_id'])->where('id_transaksi', $transaksiExist->id)->first();
+                        if ($detail !== null) {
+                            $detail->jumlah_produk += 1;
+                            $detail->total_transaksi_produk = $detail->jumlah_produk * $produk->harga_produk;
+                            $detail->save();
+                        } else {
 
-                    $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
-                    $transaksi->save();
+                            $detail = detail_transaksi::create([
+                                'jumlah_produk' => 1,
+                                'total_transaksi_produk' => $produk->harga_produk,
+                                'id_produk' => $storeData['produk_id'],
+                                'id_transaksi' => $transaksi->id,
+                            ]);
+                            $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
+                            $transaksi->save();
+                        }
+                    } else {
+
+                        $detail = detail_transaksi::create([
+                            'jumlah_produk' => 1,
+                            'total_transaksi_produk' => $produk->harga_produk,
+                            'id_produk' => $storeData['produk_id'],
+                            'id_transaksi' => $transaksi->id,
+                        ]);
+                        $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
+                        $transaksi->save();
+                    }
 
                     // dd('masuk');
                     DB::commit();
@@ -164,6 +240,7 @@ class transaksiController extends Controller
             }
             DB::beginTransaction();
             try {
+
                 // $produk = produk::where('id', $storeData['id'])->first();
                 $produk = hampers::where('id', $storeData['hampers_id'])->first();
                 // dd($produk);
@@ -172,12 +249,21 @@ class transaksiController extends Controller
                 // $testing = $storeData['hampers_id'];
                 // dd($testing);
                 if ($transaksiExist) {
-                    $detail = detail_transaksi::create([
-                        'jumlah_produk' => $storeData['jumlah_produk'],
-                        'total_transaksi_produk' => $storeData['jumlah_produk'] * $produk->harga_hampers,
-                        'id_hampers' => $storeData['hampers_id'],
-                        'id_transaksi' => $transaksiExist->id,
-                    ]);
+
+                    $detail = detail_transaksi::where('id_hampers', $storeData['hampers_id'])->where('id_transaksi', $transaksiExist->id)->first();
+                    if ($detail !== null) {
+                        $detail->jumlah_produk = $detail->jumlah_produk + $storeData['jumlah_produk'];
+                        $detail->total_transaksi_produk = $detail->jumlah_produk * $produk->harga_produk;
+                        $detail->save();
+                    } else {
+
+                        $detail = detail_transaksi::create([
+                            'jumlah_produk' => $storeData['jumlah_produk'],
+                            'total_transaksi_produk' => $storeData['jumlah_produk'] * $produk->harga_hampers,
+                            'id_hampers' => $storeData['hampers_id'],
+                            'id_transaksi' => $transaksiExist->id,
+                        ]);
+                    }
 
                     $transaksiExist->jumlah_transaksi_produk = $transaksiExist->jumlah_transaksi_produk + $detail->total_transaksi_produk;
                     $transaksiExist->save();
@@ -185,7 +271,7 @@ class transaksiController extends Controller
                     DB::commit();
                     return redirect()->to(url('catalog'));
                 } else {
-                    // dd('masuk');
+
                     $transaksi = transaksi::create([
                         // 'jumlah_transaksi_produk' => 
                         'jumlah_poin_transaksi' => 0,
@@ -194,15 +280,37 @@ class transaksiController extends Controller
                         'tanggal_ambil' => $storeData['tanggal_pengambilan'],
                         'id_customer' => $storeData['id_customer']
                     ]);
-                    $detail = detail_transaksi::create([
-                        'jumlah_produk' => $storeData['jumlah_produk'],
-                        'total_transaksi_produk' => $storeData['jumlah_produk'] * $produk->harga_hampers,
-                        'id_hampers' => $storeData['hampers_id'],
-                        'id_transaksi' => $transaksi->id,
-                    ]);
+                    $temp = detail_transaksi::all();
+                    // dd($temp);
+                    if (!isNull($temp)) {
+                        // dd('masuk');
+                        $detail = detail_transaksi::where('id_hampers', $storeData['hampers_id'])->where('id_transaksi', $transaksiExist->id)->first();
+                        if ($detail !== null) {
+                            $detail->jumlah_produk += 1;
+                            $detail->total_transaksi_produk = $detail->jumlah_produk * $produk->harga_hampers;
+                            $detail->save();
+                        } else {
 
-                    $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
-                    $transaksi->save();
+                            $detail = detail_transaksi::create([
+                                'jumlah_produk' => 1,
+                                'total_transaksi_produk' => $produk->harga_hampers,
+                                'id_hampers' => $storeData['hampers_id'],
+                                'id_transaksi' => $transaksi->id,
+                            ]);
+                            $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
+                            $transaksi->save();
+                        }
+                    } else {
+
+                        $detail = detail_transaksi::create([
+                            'jumlah_produk' => 1,
+                            'total_transaksi_produk' => $produk->harga_hampers,
+                            'id_hampers' => $storeData['hampers_id'],
+                            'id_transaksi' => $transaksi->id,
+                        ]);
+                        $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
+                        $transaksi->save();
+                    }
                     // dd('masuk');
                     DB::commit();
                     return redirect()->to(url('catalog'));
@@ -213,26 +321,36 @@ class transaksiController extends Controller
                 return redirect()->to(url('catalog'));
             }
         } else {
+
             // dd($storeData);
             DB::beginTransaction();
             try {
+
                 $produk = hampers::where('id', $storeData['produk_id'])->first();
                 $transaksiExist = transaksi::where('status_transaksi', 'di dalam keranjang')->first();
 
                 if ($transaksiExist) {
-                    $detail = detail_transaksi::create([
-                        'jumlah_produk' => 1,
-                        'total_transaksi_produk' => $produk->harga_hampers,
-                        'id_hampers' => $storeData['produk_id'],
-                        'id_transaksi' => $transaksiExist->id,
-                    ]);
+                    $detail = detail_transaksi::where('id_hampers', $storeData['produk_id'])->where('id_transaksi', $transaksiExist->id)->first();
+                    // dd('masuk');
+                    if ($detail !== null) {
+                        $detail->jumlah_produk += 1;
+                        $detail->total_transaksi_produk = $detail->jumlah_produk * $produk->harga_hampers;
+                        $detail->save();
+                    } else {
+
+                        $detail = detail_transaksi::create([
+                            'jumlah_produk' => 1,
+                            'total_transaksi_produk' => $produk->harga_hampers,
+                            'id_hampers' => $storeData['produk_id'],
+                            'id_transaksi' => $transaksiExist->id,
+                        ]);
+                    }
                     $transaksiExist->jumlah_transaksi_produk = $transaksiExist->jumlah_transaksi_produk + $detail->total_transaksi_produk;
                     $transaksiExist->save();
                     DB::commit();
 
                     return redirect()->to(url('catalog'));
                 } else {
-
                     $transaksi = transaksi::create([
                         // 'jumlah_transaksi_produk' => 
                         'jumlah_poin_transaksi' => 0,
@@ -241,15 +359,39 @@ class transaksiController extends Controller
                         'tanggal_ambil' => $tanggalHariIni,
                         'id_customer' => $storeData['id_customer']
                     ]);
-                    $detail = detail_transaksi::create([
-                        'jumlah_produk' => 1,
-                        'total_transaksi_produk' => $produk->harga_hampers,
-                        'id_hampers' => $storeData['hampers_id'],
-                        'id_transaksi' => $transaksi->id,
-                    ]);
+                    // dd('masuk');
 
-                    $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
-                    $transaksi->save();
+                    $temp = detail_transaksi::all();
+                    // dd($temp);
+                    if (!isNull($temp)) {
+                        // dd('masuk');
+                        $detail = detail_transaksi::where('id_hampers', $storeData['produk_id'])->where('id_transaksi', $transaksiExist->id)->first();
+                        if ($detail !== null) {
+                            $detail->jumlah_produk += 1;
+                            $detail->total_transaksi_produk = $detail->jumlah_produk * $produk->harga_hampers;
+                            $detail->save();
+                        } else {
+
+                            $detail = detail_transaksi::create([
+                                'jumlah_produk' => 1,
+                                'total_transaksi_produk' => $produk->harga_hampers,
+                                'id_hampers' => $storeData['produk_id'],
+                                'id_transaksi' => $transaksi->id,
+                            ]);
+                            $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
+                            $transaksi->save();
+                        }
+                    } else {
+                        // dd($produk);
+                        $detail = detail_transaksi::create([
+                            'jumlah_produk' => 1,
+                            'total_transaksi_produk' => $produk->harga_hampers,
+                            'id_hampers' => $storeData['produk_id'],
+                            'id_transaksi' => $transaksi->id,
+                        ]);
+                        $transaksi->jumlah_transaksi_produk = $detail->total_transaksi_produk;
+                        $transaksi->save();
+                    }
                     // dd('masuk');
                     DB::commit();
                     return redirect()->to(url('catalog'));
@@ -277,12 +419,12 @@ class transaksiController extends Controller
     {
         $transaksi = transaksi::find($id);
         $updateData = $request->all();
-        dd($updateData);
+        // dd($updateData);
 
         if ($request->hasFile('bukti_transaksi')) {
             $image = $updateData['bukti_transaksi'];
             $image_name = time() . '.' . $image->getClientOriginalExtension();
-            dd($updateData['bukti_transaksi']);
+            // dd($updateData['bukti_transaksi']);
             $destinationPath = public_path('/public/images');
             $image->move($destinationPath, $image_name);
             $imagePath = '/public/images/' . $image_name;
@@ -296,6 +438,19 @@ class transaksiController extends Controller
         $customer = customer::where('id', $transaksi->id_customer)->first();
         $customer->poin_customer = 0;
         $customer->poin_customer += $updateData['poin'];
+        $detail = detail_transaksi::where('id_transaksi', $transaksi->id)->get();
+        foreach ($detail as $d) {
+            if ($d->id_hampers === null) {
+                $produk = produk::where('id', $d->id_produk)->first();
+                if ($d->produk->stok === 0) {
+                    $produk->kuota -= 1;
+                } else {
+                    $produk->stok_produk -= 1;
+                }
+
+                $produk->save();
+            }
+        }
         $customer->save();
 
 
@@ -306,6 +461,10 @@ class transaksiController extends Controller
             // }
             return redirect()->to(url('catalog'));
         }
+    }
+
+    public function updateStatus(Request $request, string $id)
+    {
     }
 
     /**
