@@ -211,3 +211,7 @@ Route::get('karyawan/edit/{id}', [karyawanController::class, 'edit'])->name('kar
 
 //owner
 Route::get('laporan/{active_karyawan_id}', [BahanBakuController::class, 'laporan'])->name('laporan');
+Route::get('print/laporanBahanBaku', [BahanBakuController::class, 'print'])->name('laporanBahanBaku');
+
+Route::get('laporanProduk/{active_karyawan_id}', [TransaksiController::class, 'laporan'])->name('laporanProduk');
+Route::get('print/laporanProduk', [TransaksiController::class, 'print'])->name('print');

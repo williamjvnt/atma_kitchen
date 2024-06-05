@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
-
+use Mpdf\Mpdf;
 return [
 
     /*
@@ -113,8 +113,10 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ])->toArray(),
 
+    
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

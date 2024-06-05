@@ -14,6 +14,9 @@ use App\Models\detail_transaksi;
 use App\Models\pemakaian_bahan_baku;
 use Illuminate\Http\Request;
 
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\App;
+
 use function PHPUnit\Framework\isNull;
 
 class TransaksiController extends Controller
@@ -215,7 +218,7 @@ class TransaksiController extends Controller
 
             return $item;
         });
-
+        // dd($many);
 
         $detail_resep = $detail_resep->map(function ($item) use ($dr) {
             foreach ($dr as $d) {
@@ -263,9 +266,96 @@ class TransaksiController extends Controller
                 'jumlah_pemakaian' => $item['total_jumlah_bahan'],
                 'id_bahan_baku' => $item['id_bahan_baku'],
             ]);
+            $b = bahan_baku::find($item['id_bahan_baku']);
+            $b->stok_bahan_baku -= $item['total_jumlah_bahan'];
+            $b->save();
             // dd($p);
         }
 
         return redirect()->route('daftarPesanan')->with('success', 'Pemakaian bahan baku berhasil dibuat');
+    }
+
+    public function laporan($active_karyawan_id)
+    {
+        $date = date('Y-M');
+        $transaksi = transaksi::where('status_transaksi', 'selesai')->get();
+        // dd($transaksi);
+        $transaksiId = $transaksi->pluck('id');
+        $detail = detail_transaksi::whereIn('id_transaksi', $transaksiId)->get();
+        $h = $detail->where('id_hampers', '!=', null);
+        $p = $detail->where('id_hampers', null);
+        $x = $p->sortBy('id')
+            ->groupBy('id_produk')
+            ->map(function ($group) {
+                return [
+                    'harga_produk' => $group->sum('total_transaksi_produk') / $group->sum('jumlah_produk'),
+                    'total_jumlah' => $group->sum('total_transaksi_produk'),
+                    'kuantitas' => $group->sum('jumlah_produk'),
+                    'id_produk' => $group->first()->id_produk
+                ];
+            });
+
+        $y = $h->sortBy('id')
+            ->groupBy('id_hampers')
+            ->map(function ($group) {
+                return [
+                    'harga_hampers' => $group->sum('total_transaksi_produk') / $group->sum('jumlah_produk'),
+                    'total_jumlah' => $group->sum('total_transaksi_produk'),
+                    'kuantitas' => $group->sum('jumlah_produk'),
+                    'id_hampers' => $group->first()->id_hampers
+                ];
+            });
+        // dd($x);
+        $produk = produk::all();
+        $hampers = hampers::all();
+        $temp = karyawan::where('nama_karyawan', $active_karyawan_id)->first();
+        if ($temp->id_role === 1) {
+            return view('MO.LaporanProduk', compact('transaksi', 'x', 'y', 'date', 'produk', 'hampers'));
+        }
+        return view('owner.LaporanProduk', compact('transaksi', 'x', 'y', 'date', 'produk', 'hampers'));
+    }
+
+    public function print(Request $request)
+    {
+        $bulan = $request->query('bulan');
+        $tahun = $request->query('tahun');
+        // dd($bulan);
+        if (!$bulan || !$tahun) {
+            return redirect()->back()->with('error', 'Bulan dan tahun harus dipilih');
+        }
+        $date = date('Y-M');
+        $transaksi = transaksi::where('status_transaksi', 'selesai')->where('tanggal_ambil', 'like', $tahun . '-' . $bulan . '%')->get();
+        // dd($transaksi);
+        $transaksiId = $transaksi->pluck('id');
+        $detail = detail_transaksi::whereIn('id_transaksi', $transaksiId)->get();
+        $h = $detail->where('id_hampers', '!=', null);
+        $p = $detail->where('id_hampers', null);
+        $x = $p->sortBy('id')
+            ->groupBy('id_produk')
+            ->map(function ($group) {
+                return [
+                    'harga_produk' => $group->sum('total_transaksi_produk') / $group->sum('jumlah_produk'),
+                    'total_jumlah' => $group->sum('total_transaksi_produk'),
+                    'kuantitas' => $group->sum('jumlah_produk'),
+                    'id_produk' => $group->first()->id_produk
+                ];
+            });
+        // dd($x);
+        $y = $h->sortBy('id')
+            ->groupBy('id_hampers')
+            ->map(function ($group) {
+                return [
+                    'harga_hampers' => $group->sum('total_transaksi_produk') / $group->sum('jumlah_produk'),
+                    'total_jumlah' => $group->sum('total_transaksi_produk'),
+                    'kuantitas' => $group->sum('jumlah_produk'),
+                    'id_hampers' => $group->first()->id_hampers
+                ];
+            });
+        // dd($x);
+        $produk = produk::all();
+        $hampers = hampers::all();
+
+        $pdf = PDF::loadView('cetakLaporanProduk', ['transaksi' => $transaksi, 'x' => $x, 'y' => $y, 'date' => $date, 'produk' => $produk, 'hampers' => $hampers]);
+        return $pdf->stream();
     }
 }
