@@ -1,15 +1,17 @@
 <?php
 
-require __DIR__.'/../vendor/autoload.php'; // Memuat autoloader Composer
+use Illuminate\Http\Request;
 
-$app = require_once __DIR__.'/../bootstrap/app.php'; // Memuat aplikasi Laravel
+define('LARAVEL_START', microtime(true));
 
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class); // Membuat kernel aplikasi
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
+}
 
-$request = Illuminate\Http\Request::capture(); // Mengambil request yang masuk
+// Register the Composer autoloader...
+require __DIR__.'/../vendor/autoload.php';
 
-$response = $kernel->handle($request); // Menangani request dan mendapatkan response
-
-$response->send(); // Mengirim response ke pengguna
-
-$kernel->terminate($request, $response); // Menjalankan terminate hooks
+// Bootstrap Laravel and handle the request...
+(require_once __DIR__.'/../bootstrap/app.php')
+    ->handleRequest(Request::capture());
