@@ -148,7 +148,7 @@
     <div id="target">
         <h2 id="title" style="color: #FFC436">OUR SIGNATURE PRODUCT</h2>
         <table>
-            @if ($produk = $produk->where('id', 20)->first())
+            @if ($produk = $produk->where('id', 62)->first())
             <td id="best">
                 <div class="card" style="width: 18rem;">
                     <img src="{{$produk->gambar_produk}}" class="card-img-top" style="width:17.93rem ;height:220px" alt="...">
@@ -161,7 +161,7 @@
             </td>
             @endif
 
-            @if ($produk = $produk->where('id', 21)->first())
+            @if ($produk = $produk->where('id', 63)->first())
             <td id="best">
                 <div class="card" style="width: 18rem;">
                     <img src="{{$produk->gambar_produk}}" class="card-img-top" style="width:17.93rem ;height:220px" alt="...">
@@ -175,7 +175,7 @@
             </td>
             @endif
 
-            @if ($produk = $produk->where('id', 23)->first())
+            @if ($produk = $produk->where('id', 64)->first())
             <td id="best">
                 <div class="card" style="width: 18rem;">
                     <img src="{{$produk->gambar_produk}}" class="card-img-top" style="width:17.93rem ;height:220px" alt="...">

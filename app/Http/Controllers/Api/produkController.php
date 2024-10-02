@@ -183,7 +183,7 @@ class produkController extends Controller
     public function destroy(string $id)
     {
         $produk = produk::find($id);
-
+        // dd($id);
         if (is_null($produk)) {
             return response([
                 'message' => 'Product Not Found',
@@ -192,6 +192,7 @@ class produkController extends Controller
         }
 
         if ($produk->delete()) {
+            // dd('masuk');
             return redirect()->route('manageProduk');
         }
 

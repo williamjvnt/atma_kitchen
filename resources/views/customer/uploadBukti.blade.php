@@ -77,8 +77,7 @@
                         @enderror
                     </div>
                 </div>
-                <input type="range" id="rangeInput" name="rangeInput" min="0" max="100">
-                <span id="rangeValue">0</span>
+                
 
                 <div class="form-floating mb-3 d-grid">
                     <button type="submit" class="btn btn-primary col-6 mb-3 mt-4 mx-auto" style="background-color: #813C3F; border-color:#813C3F;">Kirim</button>

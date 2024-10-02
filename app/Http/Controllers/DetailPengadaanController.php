@@ -30,7 +30,7 @@ class DetailPengadaanController extends Controller
     {
         $pengadaan_bahan_baku = pengadaan_bahan_baku::all();
         $bahan_baku = bahan_baku::all();
-        $detail = detail_pengadaan::all();
+        $detail = detail_pengadaan::where('id_pengadaan', $id)->first();
 
         // Mengambil semua pengadaan_bahan_baku
         return view('MO.editPengadaan', compact('pengadaan_bahan_baku', 'bahan_baku', 'detail'));

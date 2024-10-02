@@ -61,7 +61,7 @@ class authController extends Controller
         Mail::to($request->email_customer)->send(new MailSend($details));
         // $customer = customer::create($registrationData);
         Session::flash('message', 'Link verifikasi telah dikirim ke email anda. Silahkan cek email anda untuk mengaktifkan akun.');
-        return redirect('/register');
+        return redirect('/login');
     }
     public function verify($verify_key)
     {
