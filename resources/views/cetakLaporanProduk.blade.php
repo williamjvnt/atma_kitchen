@@ -73,7 +73,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($x as $item)
+                                        @forelse($x as $item)
                                         @php
                                         $id = $item['id_produk'];
                                         $nama = $produk->where('id', $id)->first();
@@ -84,10 +84,17 @@
                                             <td class="text-center align-middle">{{ $item['harga_produk'] }}</td>
                                             <td class="text-center align-middle">{{ $item['total_jumlah'] }}</td>
                                         </tr>
+                                        @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                <div class="alert alert-danger">
+                                                    Data Produk belum tersedia.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforelse
 
-                                        @endforeach
-
-                                        @foreach($y as $item)
+                                        @forelse($y as $item)
                                         @php
                                         $id = $item['id_hampers'];
                                         $nama = $hampers->where('id', $id)->first();
@@ -98,8 +105,15 @@
                                             <td class="text-center align-middle">{{ $item['harga_hampers'] }}</td>
                                             <td class="text-center align-middle">{{ $item['total_jumlah'] }}</td>
                                         </tr>
-
-                                        @endforeach
+                                        @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                <div class="alert alert-danger">
+                                                    Data Hampers belum tersedia.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>

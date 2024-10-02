@@ -22,7 +22,7 @@
                             <button class="btn" type="submit" style="background-color: #813C3F; border-color:#813C3F; color:white">Search</button>
                         </form>
                         <a href="{{route('produk.add') }}" class="btn btn-md mb-3 " style="background-color: #813C3F; border-color:#813C3F; color:white">TAMBAH PRODUK</a>
-
+                        
                         <div class="table-responsive p-0">
                             <table class="table table-hover text-no-wrap">
                                 <thead>
@@ -54,10 +54,10 @@
                                                 <a href="{{ route('produk.edit', $item->id) }}" class="btn btn-sm btn-primary">EDIT</a>
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">
+                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                                     Hapus
                                                 </button>
-                                                <div class="modal fade" id="deleteModal{{ $item->id }}" data-bs-backdrop=" static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel{{ $item->id }}" aria-hidden="true">
+                                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">

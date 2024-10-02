@@ -459,7 +459,6 @@ class transaksiController extends Controller
             // foreach(detail_transaksi::where('id_transaksi', $id)->first()){
 
             // }
-            // dd('hayuk');
             return redirect()->to(url('catalog'));
         }
     }
