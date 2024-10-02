@@ -1,6 +1,6 @@
 <?php
-// Inisialisasi file dari public
-require __DIR__.'/../public/index.php';
+// Memastikan kode di bawah ini dieksekusi sebagai API
+header("Content-Type: application/json");
 
-// Buat respons manual untuk serverless function
-echo "Hello from Vercel API!";
+echo json_encode(["message" => "Hello from Vercel API!"]);
+    
