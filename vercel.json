@@ -1,29 +1,27 @@
 {
     "version": 2,
-    "routes": [
-      {
-        "src": "/img/(.*)",
-        "dest": "/public/img/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/public/index.php"
-      }
-    ],
-    "env": {
-      "APP_ENV": "production",
-      "APP_DEBUG": "true",
-      "APP_URL": "https://Atma-kitchen.vercel.app/",
-      "APP_CONFIG_CACHE": "/tmp/config.php",
-      "APP_EVENTS_CACHE": "/tmp/events.php",
-      "APP_PACKAGES_CACHE": "/tmp/packages.php",
-      "APP_ROUTES_CACHE": "/tmp/routes.php",
-      "APP_SERVICES_CACHE": "/tmp/services.php",
-      "VIEW_COMPILED_PATH": "/tmp",
-      "CACHE_DRIVER": "array",
-      "LOG_CHANNEL": "stderr",
-      "SESSION_DRIVER": "cookie"
+    "functions": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.6.0"
+        }
     },
-    "outputDirectory": "public"
-  }
-  
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/api/index.php"
+        }
+    ],
+    "public": true,
+    "env": {
+        "APP_ENV": "production",
+        "APP_DEBUG": "false",
+        "APP_URL": "https://atma-kitchen.vercel.app",
+        "APP_KEY": "base64:onvNRR1vCaITJVWNrSQ/jsXCBa0NK8G38vgzO29gESM=",
+        "DB_CONNECTION": "mysql",
+        "DB_HOST": "sql203.infinityfree.com",
+        "DB_PORT": "3306",
+        "DB_DATABASE": "if0_37432371_atma_bakery",
+        "DB_USERNAME": "if0_37432371",
+        "DB_PASSWORD": "2zzYR2QvkEb"
+    }
+}

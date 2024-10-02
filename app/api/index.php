@@ -1,6 +1,14 @@
 <?php
-// Inisialisasi file dari public
-require __DIR__.'/../public/index.php';
 
-// Buat respons manual untuk serverless function
-echo "Hello from Vercel API!";
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+$response->send();
+
+$kernel->terminate($request, $response);
