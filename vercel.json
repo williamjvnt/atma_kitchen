@@ -1,10 +1,7 @@
 {
     "version": 2,
- 
     "functions": {
-        "api/index.php": {
-            "runtime": "vercel-php@0.6.0"
-        }
+        "api/index.php": { "runtime": "vercel-php@0.6.0" }
     },
     "routes": [
       {
@@ -28,11 +25,11 @@
       "LOG_CHANNEL": "stderr",
       "SESSION_DRIVER": "cookie",
       "DB_CONNECTION": "mysql",
-        "DB_HOST": "sql203.infinityfree.com",
+        "DB_HOST": "sql12.freesqldatabase.com",
         "DB_PORT": "3306",
-        "DB_DATABASE": "if0_37432371_atma_bakery",
-        "DB_USERNAME": "if0_37432371",
-        "DB_PASSWORD": "2zzYR2QvkEb "
+        "DB_DATABASE": "sql12735085",
+        "DB_USERNAME": "sql12735085",
+        "DB_PASSWORD": "IVJiVbAhGq"
     },
     
     "outputDirectory": "public"
