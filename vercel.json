@@ -13,7 +13,7 @@
     "env": {
       "APP_ENV": "production",
       "APP_DEBUG": "true",
-      "APP_URL": "https://atmabakery.vercel.app/",
+      "APP_URL": "https://Atma-kitchen.vercel.app/",
       "APP_KEY": "base64:onvNRR1vCaITJVWNrSQ/jsXCBa0NK8G38vgzO29gESM=",
       "APP_CONFIG_CACHE": "/tmp/config.php",
       "APP_EVENTS_CACHE": "/tmp/events.php",
