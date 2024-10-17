@@ -35,7 +35,6 @@ Route::get('/', [CustomerController::class, 'loginSuccess'])->name('login');
 Route::get('home', function () {
     $produk = Produk::all();
     // dd(Auth::check());
-    // dd(Auth::check());
     $klontong = transaksi::where('id_customer', Auth::user()->id)
         ->where(function ($query) {
             $query->where('status_transaksi', 'di dalam keranjang')
@@ -130,88 +129,88 @@ route::get('uploadBukti', function () {
 })->middleware('auth');
 
 Route::get('register/verify/{verify_key}', [App\Http\Controllers\Api\authController::class, 'verify'])->name('verify');
-Route::get('logout', [CustomerController::class, 'actionLogout'])->name('actionLogout');
-// route::get('/', [CustomerController::class, 'login'])->name('login');
-// Route::get('/login', function () {
-//     return view('customer/loginCust');
-// })->name('login');
 
-// Route::post('/logout', function () {
-//     Auth::logout();
-//     return redirect('/');
-// })->name('logout');
-//customer
-Route::resource('login', App\Http\Controllers\CustomerController::class);
+
+Route::get('logout', [CustomerController::class, 'actionLogout'])->name('actionLogout');
+Route::resource('login', App\Http\Controllers\CustomerController::class);   
 Route::resource('catalog', App\Http\Controllers\catalogController::class);
-// Route::get('catalogCustomer', [catalogController::class, 'indexCustomer'])->name('indexCustomer');
 Route::get('register', [CustomerController::class, 'register'])->name('register');
-// Route::get('HomePage', [CustomerController::class, 'loginSuccess'])->name('homePage');
 
 //employee
 Route::resource('loginEmployee', App\Http\Controllers\KaryawanController::class);
 Route::post('dashboardEmployee', [KaryawanController::class, 'actionLoginEmployee'])->name('dashboardEmployee');
-
 Route::get('dashboardOwner', function () {
     return view('/Owner/navbarOwnerDashboard');
-})->name('dashboardOwner');
+})->name('dashboardOwner')->middleware('auth');
 
 //admin
+Route::group(['middleware' => 'auth'], function () {
+    
+    Route::get('dashboardAdmin', function () {
+        return view('/admin/navbarAdminDashboard');
+    })->name('dashboardAdmin');
+    
+    route::get('Admin/manageProduk', [ProdukController::class, 'index'])->name('manageProduk');
+    Route::get('produk/create', [ProdukController::class, 'create'])->name('produk.add');
+    Route::get('produk/edit/{id}', [ProdukController::class, 'edit'])->name('produk.edit');
+    
+    route::get('Admin/manageTitipan', [ProdukController::class, 'titipan'])->name('manageTitipan');
+    Route::get('titipan/create', [ProdukController::class, 'createTitipan'])->name('titipan.add');
+    Route::get('titipan/edit/{id}', [ProdukController::class, 'editTitipan'])->name('titipan.edit');
+    
+    route::get('Admin/managehampers', [hampersController::class, 'index'])->name('manageHampers');
+    Route::get('hampers/create', [hampersController::class, 'create'])->name('hampers.add');
+    Route::get('hampers/edit/{id}', [hampersController::class, 'edit'])->name('hampers.edit');
+    
+    route::get('Admin/manageresep', [ResepProdukController::class, 'index'])->name('manageResep');
+    Route::get('resep/create', [ResepProdukController::class, 'create'])->name('resep.add');
+    Route::get('resep/edit/{id}', [ResepProdukController::class, 'edit'])->name('resep.edit');
+    
+    
+    route::get('Admin/managebahanbaku', [BahanBakuController::class, 'index'])->name('manageBahanbaku');
+    Route::get('bahanbaku/create', [BahanBakuController::class, 'create'])->name('bahanbaku.add');
+    Route::get('bahanbaku/edit/{id}', [BahanBakuController::class, 'edit'])->name('bahanbaku.edit');
+});
 
-Route::get('dashboardAdmin', function () {
-    return view('/admin/navbarAdminDashboard');
-})->name('dashboardAdmin');
-
-route::get('Admin/manageProduk', [ProdukController::class, 'index'])->name('manageProduk');
-Route::get('produk/create', [ProdukController::class, 'create'])->name('produk.add');
-Route::get('produk/edit/{id}', [ProdukController::class, 'edit'])->name('produk.edit');
-
-route::get('Admin/manageTitipan', [ProdukController::class, 'titipan'])->name('manageTitipan');
-Route::get('titipan/create', [ProdukController::class, 'createTitipan'])->name('titipan.add');
-Route::get('titipan/edit/{id}', [ProdukController::class, 'editTitipan'])->name('titipan.edit');
-
-route::get('Admin/managehampers', [hampersController::class, 'index'])->name('manageHampers');
-Route::get('hampers/create', [hampersController::class, 'create'])->name('hampers.add');
-Route::get('hampers/edit/{id}', [hampersController::class, 'edit'])->name('hampers.edit');
-
-route::get('Admin/manageresep', [ResepProdukController::class, 'index'])->name('manageResep');
-Route::get('resep/create', [ResepProdukController::class, 'create'])->name('resep.add');
-Route::get('resep/edit/{id}', [ResepProdukController::class, 'edit'])->name('resep.edit');
-
-
-route::get('Admin/managebahanbaku', [BahanBakuController::class, 'index'])->name('manageBahanbaku');
-Route::get('bahanbaku/create', [BahanBakuController::class, 'create'])->name('bahanbaku.add');
-Route::get('bahanbaku/edit/{id}', [BahanBakuController::class, 'edit'])->name('bahanbaku.edit');
 
 
 //MO
-Route::get('dashboardMO', function () {
-    return view('/MO/navbarMODashboard');
-})->name('dashboardMO');
+Route::group(['middleware' => 'auth'], function () {
+    
+    Route::get('dashboardMO', function () {
+        return view('/MO/navbarMODashboard');
+    })->name('dashboardMO');
+    
+    Route::get('MO/daftarPesanan', [transaksiController::class, 'diterima'])->name('daftarPesanan');
+    Route::get('MO/processPesanan', [transaksiController::class, 'process'])->name('processPesanan');
+    Route::Post('MO/accPesanan', [transaksiController::class, 'update'])->name('accPesanan');
+    
+    Route::get('MO/managePengadaanBahanBaku', [DetailPengadaanController::class, 'index'])->name('managePengadaan');
+    Route::get('pengadaan/create', [DetailPengadaanController::class, 'create'])->name('pengadaan.add');
+    Route::get('pengadaan/edit/{id}', [DetailPengadaanController::class, 'edit'])->name('pengadaan.edit');
+    
+    route::get('MO/managePenitip', [penitipController::class, 'index'])->name('managePenitip');
+    Route::get('penitip/create', [penitipController::class, 'create'])->name('penitip.add');
+    Route::get('penitip/edit/{id}', [penitipController::class, 'edit'])->name('penitip.edit');
+    
+    route::get('MO/managePengeluaranLain', [PengeluaranLainController::class, 'index'])->name('managePengeluaranLain');
+    Route::get('PengeluaranLain/create', [PengeluaranLainController::class, 'create'])->name('pengeluaranLain.add');
+    Route::get('PengeluaranLain/edit/{id}', [PengeluaranLainController::class, 'edit'])->name('pengeluaranLain.edit');
+    
+    route::get('MO/manageKaryawan', [KaryawanController::class, 'view'])->name('manageKaryawan');
+    Route::get('karyawan/create', [karyawanController::class, 'create'])->name('karyawan.add');
+    Route::get('karyawan/edit/{id}', [karyawanController::class, 'edit'])->name('karyawan.edit');
+});
 
-Route::get('MO/daftarPesanan', [transaksiController::class, 'diterima'])->name('daftarPesanan');
-Route::get('MO/processPesanan', [transaksiController::class, 'process'])->name('processPesanan');
-Route::Post('MO/accPesanan', [transaksiController::class, 'update'])->name('accPesanan');
-
-Route::get('MO/managePengadaanBahanBaku', [DetailPengadaanController::class, 'index'])->name('managePengadaan');
-Route::get('pengadaan/create', [DetailPengadaanController::class, 'create'])->name('pengadaan.add');
-Route::get('pengadaan/edit/{id}', [DetailPengadaanController::class, 'edit'])->name('pengadaan.edit');
-
-route::get('MO/managePenitip', [penitipController::class, 'index'])->name('managePenitip');
-Route::get('penitip/create', [penitipController::class, 'create'])->name('penitip.add');
-Route::get('penitip/edit/{id}', [penitipController::class, 'edit'])->name('penitip.edit');
-
-route::get('MO/managePengeluaranLain', [PengeluaranLainController::class, 'index'])->name('managePengeluaranLain');
-Route::get('PengeluaranLain/create', [PengeluaranLainController::class, 'create'])->name('pengeluaranLain.add');
-Route::get('PengeluaranLain/edit/{id}', [PengeluaranLainController::class, 'edit'])->name('pengeluaranLain.edit');
-
-route::get('MO/manageKaryawan', [KaryawanController::class, 'view'])->name('manageKaryawan');
-Route::get('karyawan/create', [karyawanController::class, 'create'])->name('karyawan.add');
-Route::get('karyawan/edit/{id}', [karyawanController::class, 'edit'])->name('karyawan.edit');
 
 
 //owner
-Route::get('laporan/{active_karyawan_id}', [BahanBakuController::class, 'laporan'])->name('laporan');
-Route::get('print/laporanBahanBaku', [BahanBakuController::class, 'print'])->name('laporanBahanBaku');
 
-Route::get('laporanProduk/{active_karyawan_id}', [TransaksiController::class, 'laporan'])->name('laporanProduk');
-Route::get('print/laporanProduk', [TransaksiController::class, 'print'])->name('print');
+Route::group(['middleware' => 'auth'], function () {
+    
+    Route::get('laporan/{active_karyawan_id}', [BahanBakuController::class, 'laporan'])->name('laporan');
+    Route::get('print/laporanBahanBaku', [BahanBakuController::class, 'print'])->name('laporanBahanBaku');
+    
+    Route::get('laporanProduk/{active_karyawan_id}', [TransaksiController::class, 'laporan'])->name('laporanProduk');
+    Route::get('print/laporanProduk', [TransaksiController::class, 'print'])->name('print');
+});
